@@ -61,6 +61,7 @@ sed "s|__DB_SQLITE_PATH__|$DB_SQLITE_PATH|" $OVERRIDE/$CONFIG > $OVERRIDE/$CONFI
 sed "s|__SERVER_HOST__|$SERVER_HOST|" $OVERRIDE/$CONFIG > $OVERRIDE/$CONFIG
 sed "s|__SERVER_PORT__|$SERVER_PORT|" $OVERRIDE/$CONFIG > $OVERRIDE/$CONFIG
 
+cat $OVERRIDE/$CONFIG
 
 # Start Ghost
 chown -R ghost:ghost /data /ghost /ghost-override
