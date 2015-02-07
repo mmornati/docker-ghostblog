@@ -16,10 +16,13 @@ RUN \
   rm -f ghost-latest.zip && \
   cd /ghost && \
   npm install --production && \
-  sed 's/127.0.0.1/0.0.0.0/' /ghost/config.example.js > /ghost/config.js && \
   useradd ghost --home /ghost
 
+# sed 's/127.0.0.1/0.0.0.0/' /ghost/config.example.js > /ghost/config.js && \
+  
 # Add files.
+ADD config.js /ghost/config.js
+
 # ADD start.bash /ghost-start
 ADD run-ghost.sh /run-ghost.sh
 RUN chmod 755 /*.sh
