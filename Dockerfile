@@ -3,10 +3,7 @@
 #
 
 # Pull base image.
-FROM tutum/node:latest
-
-# Update Packages
-RUN apt-get update
+FROM dockerfile/nodejs
 
 # Install Ghost
 RUN \
