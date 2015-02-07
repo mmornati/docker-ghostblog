@@ -10,7 +10,7 @@ THEMES="content/themes"
 
 echo "=> Set up SymLinks:"
 echo "========================================================================"
-echo "      Data:    $OVERRIDE/$DATA to $GHOST/$DATA"
+echo "      Data:    $OVERRIDE/$DATA to $GHOST/content"
 echo "      Images:  $OVERRIDE/$IMAGES to $GHOST/$IMAGES"
 echo "      Config:  $OVERRIDE/$CONFIG to $GHOST/$CONFIG"
 echo "      Themes:  $OVERRIDE/$THEMES to $GHOST/$THEMES"
@@ -22,7 +22,7 @@ cd "$GHOST"
 # Symlink data directory.
 mkdir -p "$OVERRIDE/$DATA"
 rm -fr "$DATA"
-ln -s "$OVERRIDE/$DATA" "$DATA"
+ln -s "$OVERRIDE/$DATA" "content"
 
 # Symlink images directory
 mkdir -p "$OVERRIDE/$IMAGES"
