@@ -17,7 +17,7 @@ config = {
             connection: {
                 filename: path.join(__dirname, '__DB_SQLITE_PATH__')
             },
-            debug: __DEBUG__
+            debug: false
         },
 
         server: {
