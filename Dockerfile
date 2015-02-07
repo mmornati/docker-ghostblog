@@ -28,10 +28,10 @@ WORKDIR /ghost
 
 # Set environment variables.
 ENV NODE_ENV production
-ENV WEB_URL 'http://my-ghost-blog.com'
-ENV DB_CLIENT 'sqlite3'
-ENV SQLITE_PATH '/content/data/ghost.db'
-ENV SERVER_HOST '0.0.0.0'
+ENV WEB_URL http://shenzhen.events
+ENV DB_CLIENT sqlite3
+ENV DB_SQLITE_PATH /content/data/ghost.db
+ENV SERVER_HOST 0.0.0.0
 
 # Expose ports.
 EXPOSE 80
