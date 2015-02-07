@@ -1,11 +1,12 @@
 #
-# Ghost Dockerfile
-#
-# https://github.com/dockerfile/ghost
+# Ghost blavorata
 #
 
 # Pull base image.
-FROM dockerfile/nodejs
+FROM tutum/node:latest
+
+# Update Packages
+RUN apt-get update
 
 # Install Ghost
 RUN \
@@ -19,19 +20,22 @@ RUN \
   useradd ghost --home /ghost
 
 # Add files.
-ADD start.bash /ghost-start
-
-# Set environment variables.
-ENV NODE_ENV production
-
-# Define mountable directories.
-VOLUME ["/data", "/ghost-override"]
+# ADD start.bash /ghost-start
+ADD run-ghost.sh /run-ghost.sh
+RUN chmod 755 /*.sh
 
 # Define working directory.
 WORKDIR /ghost
 
-# Define default command.
-CMD ["bash", "/ghost-start"]
+# Set environment variables.
+ENV NODE_ENV production
+ENV WEB_URL **ChangeMe**
 
 # Expose ports.
-EXPOSE 2368
+EXPOSE 80
+
+# Define mountable directories.
+VOLUME ["/ghost/content", "/ghost-override"]
+
+# Define default command.
+CMD ["/run-ghost.sh"]
