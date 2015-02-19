@@ -4,9 +4,7 @@ lifecyle: &lifecycleHttp
 
 name: kimsufi
 ships:
-  #local: { ip: &localip 172.17.42.1 }
   local: { socket_path: /var/run/docker.sock, ip: &localip 192.168.0.39 }
-  #local: { ip: &localip 192.168.0.39 }
 
 services:
 
