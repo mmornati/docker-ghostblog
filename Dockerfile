@@ -18,6 +18,7 @@ COPY config.js /ghost/config.js
 
 RUN useradd ghost --home /ghost
 RUN chown -R ghost:ghost /ghost
+RUN chown -R ghost:ghost /ghost-override
 
 USER ghost
 ENV HOME /ghost
@@ -35,7 +36,7 @@ ENV NODE_ENV production
 EXPOSE 2368
 
 # Define mountable directories.
-VOLUME ["/ghost/content", "/ghost-override"]
+VOLUME ["/ghost-override"]
 
 # Define default command.
 CMD ["/run-ghost.sh"]

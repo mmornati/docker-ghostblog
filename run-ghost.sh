@@ -45,8 +45,33 @@ sed -i "s|__DB_SQLITE_PATH__|$DB_SQLITE_PATH|g" $CONFIG
 sed -i "s|__SERVER_HOST__|$SERVER_HOST|g" $CONFIG
 sed -i "s|__SERVER_PORT__|$SERVER_PORT|g" $CONFIG
 
-
 cat $CONFIG
+
+#Configuring overrides folders
+# Symlink data directory.
+mkdir -p "$OVERRIDE/$DATA"
+rm -fr "$DATA"
+ln -s "$OVERRIDE/$DATA" "content"
+
+# Symlink images directory
+mkdir -p "$OVERRIDE/$IMAGES"
+rm -fr "$IMAGES"
+ln -s "$OVERRIDE/$IMAGES" "$IMAGES"
+
+# Symlink config file.
+if [[ -f "$OVERRIDE/$CONFIG" ]]; then
+  rm -f "$CONFIG"
+  ln -s "$OVERRIDE/$CONFIG" "$CONFIG"
+fi
+
+# Symlink themes.
+if [[ -d "$OVERRIDE/$THEMES" ]]; then
+  for theme in $(find "$OVERRIDE/$THEMES" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+  do
+    rm -fr "$THEMES/$theme"
+    ln -s "$OVERRIDE/$THEMES/$theme" "$THEMES/$theme"
+  done
+fi
 
 # Start Ghost
 NODE_ENV=${NODE_ENV:-production} npm start
