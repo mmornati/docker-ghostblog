@@ -10,21 +10,21 @@ config = {
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
     production: {
-        url: 'http://shenzhen.events',
+        url: '__WEB_URL__',
         mail: {},
         database: {
-            client: 'sqlite3',
+            client: '__DB_CLIENT__',
             connection: {
-                filename: path.join(__dirname, '/content/data/ghost.db')
+                filename: path.join(__dirname, '__DB_SQLITE_PATH__')
             },
             debug: false
         },
 
         server: {
             // Host to be passed to node's `net.Server#listen()`
-            host: '0.0.0.0',
+            host: '__SERVER_HOST__',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
-            port: '2368'
+            port: '__SERVER_PORT__'
         }
     },
 

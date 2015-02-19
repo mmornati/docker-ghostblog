@@ -1,5 +1,5 @@
 #
-# Ghost blavorata
+# Ghost blog.mornati.net
 #
 
 # Pull base image.
@@ -12,8 +12,9 @@ RUN \
   unzip ghost-latest.zip -d /ghost && \
   rm -f ghost-latest.zip
 
-ADD run-ghost.sh /run-ghost.sh
-RUN chmod 755 /*.sh
+COPY run-ghost.sh /run-ghost.sh
+RUN chmod 755 /run-ghost.sh
+COPY config.js /ghost/config.js
 
 RUN useradd ghost --home /ghost
 RUN chown -R ghost:ghost /ghost
@@ -21,24 +22,17 @@ RUN chown -R ghost:ghost /ghost
 USER ghost
 ENV HOME /ghost
 RUN cd /ghost && \
-  npm install --production && \
-  sed 's/127.0.0.1/0.0.0.0/' /ghost/config.example.js > /ghost/config.js
-  
+  npm install --production 
 
-ADD config.js /ghost/config.js
 
 # Define working directory.
 WORKDIR /ghost
 
 # Set environment variables.
 ENV NODE_ENV production
-ENV WEB_URL http://ser39.ovh.wikeo.webadeo.net
-ENV DB_CLIENT sqlite3
-ENV DB_SQLITE_PATH /content/data/ghost.db
-ENV SERVER_HOST 0.0.0.0
 
 # Expose ports.
-EXPOSE 80
+EXPOSE 2368
 
 # Define mountable directories.
 VOLUME ["/ghost/content", "/ghost-override"]

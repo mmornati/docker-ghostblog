@@ -24,13 +24,19 @@ This repository contains **Dockerfile** of [Ghost](https://www.ghost.org/) for [
 
 #### Customizing Ghost
 
-    docker run -d -p 80:2368 -v <override-dir>:/ghost-override dockerfile/ghost
+    docker run -d -p 80:2368 -e [ENVIRONMENT_VARIABLES] -v <override-dir>:/ghost-override dockerfile/ghost
 
-where `<override-dir>` is an absolute path of a directory that could contain:
+Environment variables are used to personalise your Ghost Blog configuration. Could be:
 
-  - `config.js`: custom config file copied from [here](https://github.com/TryGhost/Ghost/blob/master/config.example.js) (you must replace `127.0.0.1` with `0.0.0.0`)
-  - `content/data/`: persistent/shared data
-  - `content/images/`: persistent/shared images
-  - `content/themes/`: more themes
+* WEB_URL: the url used to expose your blog (default: blog.mornati.net)
+* DB_CLIENT: database used to store blog data (default: sqlite3)
+* DB_SQLITE_PATH: sqlite data file path (default: /content/data/ghost.db)
+* SERVER_HOST: hostname/ip used to expose the blog (default: 0.0.0.0)
+* SERVER_PORT: port used by the server (default: 2638).
 
-After few seconds, open `http://<host>` for blog or `http://<host>/ghost` for admin page.
+> NB: Knowing the ghostblog is run using a 'non root user' (ghost), you cannot start the nodejs process on a port less than 1024.
+
+A complete running command line could be:
+
+    docker run -d -p 80:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/ghost-override dockerfile/ghost
+
