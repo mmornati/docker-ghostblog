@@ -2,8 +2,13 @@
 # Ghost blog.mornati.net
 #
 
-# Pull base image.
-FROM dockerfile/nodejs
+# Pull base image (based on Debian)
+FROM node:0.10.36
+
+#Install Base package needed to install Ghost
+RUN apt-get update
+RUN apt-get install unzip
+
 
 # Install Ghost
 RUN \
