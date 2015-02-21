@@ -49,12 +49,16 @@ cat $CONFIG
 
 #Configuring overrides folders
 # Symlink data directory.
-mkdir -p "$OVERRIDE/$DATA"
+if [ ! -d "$OVERRIDE/$DATA" ]; then 
+	mkdir -p "$OVERRIDE/$DATA"
+fi
 rm -fr "$DATA"
 ln -s "$OVERRIDE/$DATA" "content"
 
 # Symlink images directory
-mkdir -p "$OVERRIDE/$IMAGES"
+if [ ! -d "$OVERRIDE/$IMAGES" ]; then
+	mkdir -p "$OVERRIDE/$IMAGES"
+fi
 rm -fr "$IMAGES"
 ln -s "$OVERRIDE/$IMAGES" "$IMAGES"
 
