@@ -18,6 +18,7 @@ COPY config.js /ghost/config.js
 
 RUN useradd ghost --home /ghost
 RUN chown -R ghost:ghost /ghost
+RUN mkdir /ghost-override
 RUN chown -R ghost:ghost /ghost-override
 
 USER ghost
