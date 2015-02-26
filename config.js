@@ -32,7 +32,7 @@ config = {
     development: {
         // The url to use when providing links to the site, E.g. in RSS and email.
         // Change this to your Ghost blogs published URL.
-        url: 'http://localhost:2368',
+        url: '__WEB_URL__',
 
         // Example mail config
         // Visit http://support.ghost.org/mail for instructions
@@ -50,7 +50,7 @@ config = {
         // ```
 
         database: {
-            client: 'sqlite3',
+            client: '__DB_CLIENT__',
             connection: {
                 filename: path.join(__dirname, '/content/data/ghost-dev.db')
             },
@@ -58,9 +58,9 @@ config = {
         },
         server: {
             // Host to be passed to node's `net.Server#listen()`
-            host: '127.0.0.1',
+            host: '__SERVER_HOST__',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
-            port: '2368'
+            port: '__SERVER_PORT__'
         },
         paths: {
             contentPath: path.join(__dirname, '/content/')
