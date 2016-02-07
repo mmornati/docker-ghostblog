@@ -35,4 +35,4 @@ Environment variables are used to personalise your Ghost Blog configuration. Cou
 A complete running command line could be:
 
     docker run -d -p 80:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/ghost-override dockerfile/ghost
-
+    
