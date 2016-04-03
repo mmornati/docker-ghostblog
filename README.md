@@ -36,3 +36,17 @@ A complete running command line could be:
 
     docker run -d -p 80:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/ghost-override dockerfile/ghost
     
+### Ghost Updates
+
+#### 0.7.8
+
+* [Fixed] Unable to add an existing tag to a new post
+
+And from 0.7.7...
+
+* [Fixed] Node v4 LTS support handles 4.3 and all future v4 LTS versions 🚀
+* [Fixed] Settings cache cleared on import, so your blog will now look correct without needing a restart
+* [Fixed] Various issues with navigation - the UI behaves better, and you'll no longer get ignored by {{current}} if you forget a trailing slash.
+* [Fixed] API serving invalid status codes, which was a potential source of crashes 💥
+* [New] The delete all content button now creates a backup file first... just in case 😉
+And much more...
