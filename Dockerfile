@@ -3,7 +3,7 @@
 #
 
 # Pull base image (based on Debian)
-FROM node:0.10.40
+FROM node:4.2
 
 #Install Base package needed to install Ghost
 RUN apt-get -y update
