@@ -3,7 +3,7 @@
 
 ### Base Docker Image
 
-* [node:0.10.36](https://registry.hub.docker.com/_/node/)
+* [node:4.2](https://registry.hub.docker.com/_/node/)
 
 
 ### Installation
@@ -11,16 +11,16 @@
 ```bash
 git clone https://github.com/mmornati/docker-ghostblog.git
 cd docker-ghostblog
-docker build -t mmornati/ghostblog .
+docker build -t mmornati/docker-ghostblog .
 ```
 
 ### Usage
 
-    docker run -d -p 80:2368 mmornati/ghostblog
+    docker run -d -p 80:2368 mmornati/docker-ghostblog
 
 #### Customizing Ghost
 
-    docker run -d -p 80:2368 -e [ENVIRONMENT_VARIABLES] -v <override-dir>:/ghost-override mmornati/ghostblog
+    docker run -d -p 80:2368 -e [ENVIRONMENT_VARIABLES] -v <override-dir>:/ghost-override mmornati/docker-ghostblog
 
 Environment variables are used to personalise your Ghost Blog configuration. Could be:
 
@@ -38,9 +38,30 @@ A complete running command line could be:
 
 ### Changelog
 
+* Fixed problem starting with old middleware file. Just removed the file and using standard Ghostblog functionalities
 * Updated Node module to 4.2 version which is now supported by Ghost
-    
+
 ### Ghost Updates
+
+#### 0.8.0
+
+* [New] Subscribers (Beta) - enable in labs to collect email addresses from your blog
+* [New] Slack integration - notify a slack channel whenever a new blog post is published
+* [New] Twitter & Facebook support - add your social profiles to your blog and users, get a meta data boost
+* [New] HTTP2 Preload headers - get super speed with CloudFlare
+* [Changed] Image uploader - improved editor performance and a smoother upload experience
+* [Changed] theme API breaking changes - see here for the details
+* [Fixed] Errors in JSON-LD structured data output on blog posts & author pages
+
+#### 0.7.9
+
+* [Improved] Static pages now have structured data, just like posts, so they will pass validation for twitter cards and other social media sharing tools.
+* [Improved] Relaxed CORS handling, meaning less people should have issues logging in to their blog if their URL isn't configured exactly right.
+* [Improved] Draft post slugs (urls) are updated when the title changes, so that you don't get weird half-titles in slugs anymore.
+* [Fixed] Static files immediately result in a 404, because trying a filename with a trailing slash on the end is never going to result in a happier ending.
+* [Fixed] Incorrect preview link & icon position in the editor making it easier to preview your post by clicking the word "preview" at the bottom of the editor.
+* [Fixed] Requesting url as a field from the Posts API didn't return the correct response (Public API Beta).
+* [Changed] Trusted domains now require their protocol be included. See below for details (Public API Beta).
 
 #### 0.7.8
 

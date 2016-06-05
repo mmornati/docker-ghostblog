@@ -33,6 +33,7 @@ RUN chown -R ghost:ghost /ghost-override
 USER ghost
 ENV HOME /ghost
 RUN cd /ghost && \
+  npm cache clean && \
   npm install --production 
 
 # Update Ghost to serve sitemap files
@@ -40,7 +41,7 @@ RUN cd /ghost && \
 #RUN newfile=$(md5sum /ghost/core/server/middleware/index.js)
 #RUN dockerfile=$(md5sum /tmp/original.middleware.index.js)
 #RUN [[ $newfile != $dockerfile ]] && echo "WARNING: Docker need to be updated!"
-COPY middleware.index.js /ghost/core/server/middleware/index.js
+#COPY middleware.index.js /ghost/core/server/middleware/index.js
 
 # Define working directory.
 WORKDIR /ghost
