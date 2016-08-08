@@ -43,6 +43,20 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.9.0
+
+* [New] Scheduled posts - tell Ghost to publish your post sometime in the future 🕑
+* [New] Configurable blog timezone - super important for making scheduled posts work the way you expect.
+* [New] Internal tags (Beta) - use tags for managing content without them appearing in your theme
+* [Improved] Install & upgrade process by removing dependency on semver which regularly broke npm
+* [Improved] Better error handling for visitors and admin users whilst performing upgrades
+* [Fixed] "Access Denied" errors when uploading images
+* [Fixed] Editing a post via the API without providing a tags list would delete the post's tags 😱
+* [Fixed] Problems running in nested sub-directories, e.g. mysite.com/my/blog
+* [Fixed] Session handling on intermittent connections - it should now be easier to stay logged in
+* [Changed] Referrer policy changed from origin to origin-when-cross-origin to improve in-site analytics
+* [Changed] Node v4 is now the recommended node version for running Ghost 🎉
+
 #### 0.8.0
 
 * [New] Subscribers (Beta) - enable in labs to collect email addresses from your blog
