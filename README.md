@@ -1,91 +1,105 @@
-## Ghost Dockerfile
+**IMPORTANT**: You **MUST** be running Ghost 0.6.0 or later. Previous versions of Ghost do not support external storage solutions.
+
+**PLEASE** create an issue if you have any problems.
+
+Cloudinary has some "advanced configuration options" for Pro users and etc.. that this module does not currently handle. If you would like support for these options added, please create an issue or submit a PR!
+
+# To Use
 
 
-### Base Docker Image
+## NPM Installation Method
 
-* [node:4.2](https://registry.hub.docker.com/_/node/)
+*In Ghost's root directory*
+
+1. Run `npm install ghost-cloudinary-store` (note the lack of `--save`)
+
+2. Make the storage folder if it doesn't already exist `mkdir content/storage`
+
+3. Copy `ghost-cloudinary-store` from `node_modules` to `content/storage`
+  ```
+  cp -r node_modules/ghost-cloudinary-store content/storage/ghost-cloudinary-store
+  ```
+
+4. Follow the instructions below for [editing config.js][1]
 
 
-### Installation
+## Git Installation Method
 
-```bash
-git clone https://github.com/mmornati/docker-ghostblog.git
-cd docker-ghostblog
-docker build -t mmornati/docker-ghostblog .
+Note: The `master` branch reflects what is published on NPM
+
+1. Navigate to Ghost's `content` directory and create a directory called `storage`
+
+2. Navigate into this new `storage` directory and run `git clone https://github.com/sethbrasile/ghost-cloudinary-store.git`
+
+3. Navigate into `ghost-cloudinary-store` and run `npm install`
+
+4. Follow the instructions below for [editing config.js][1]
+
+
+## Editing config.js
+
+You have two options for configuring Ghost to work with your Cloudinary account:
+
+1. By using your Cloudinary credentials: `cloud_name`, `api_key`, and `api_secret`.
+2. By setting a `CLOUDINARY_URL` environment variable.
+
+
+#### With Cloudinary credentials
+
+In Ghost's `config.js` (the file where you set your URL, mail settings, etc..) add a block to whichever environment you're using (`production`, `development`, etc...) as follows:
+
+Note: These values can be obtained from your Cloudinary management console.
+
+```javascript
+storage: {
+    active: 'ghost-cloudinary-store',
+    'ghost-cloudinary-store': {
+        cloud_name: 'yourCloudName',
+        api_key: 'yourApiKey',
+        api_secret: 'yourApiSecret'
+    }
+}
 ```
 
-### Usage
+Further reading available [here][2].
 
-    docker run -d -p 80:2368 mmornati/docker-ghostblog
 
-#### Customizing Ghost
+#### With a `CLOUDINARY_URL` environment variable
 
-    docker run -d -p 80:2368 -e [ENVIRONMENT_VARIABLES] -v <override-dir>:/ghost-override mmornati/docker-ghostblog
+**NOTE:** I haven't personally gotten this option to work, but it **should** according to Cloudinary's documentation.
+Maybe stick with the credentials option above. If you make this option work, please let me know [here][4].
 
-Environment variables are used to personalise your Ghost Blog configuration. Could be:
+In Ghost's `config.js` (the file where you set your URL, mail settings, etc..) add a block to whichever environment you're using (`production`, `development`, etc...) as follows:
 
-* WEB_URL: the url used to expose your blog (default: blog.mornati.net)
-* DB_CLIENT: database used to store blog data (default: sqlite3)
-* DB_SQLITE_PATH: sqlite data file path (default: /content/data/ghost.db)
-* SERVER_HOST: hostname/ip used to expose the blog (default: 0.0.0.0)
-* SERVER_PORT: port used by the server (default: 2638).
+```javascript
+storage: {
+    active: 'ghost-cloudinary-store'
+}
+```
 
-> NB: Knowing the ghostblog is run using a 'non root user' (ghost), you cannot start the nodejs process on a port less than 1024.
+Then set the `CLOUDINARY_URL` environment variable, available from your Cloudinary management console.
 
-A complete running command line could be:
+It will look something like `CLOUDINARY_URL=cloudinary://874837483274837:a676b67565c6767a6767d6767f676fe1@sample`.
 
-    docker run -d -p 80:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/ghost-override dockerfile/ghost
+Further reading available [here][2].
 
-### Changelog
+If you don't know what an environment variable is, [read this][3].
 
-* Fixed problem starting with old middleware file. Just removed the file and using standard Ghostblog functionalities
-* Updated Node module to 4.2 version which is now supported by Ghost
 
-### Ghost Updates
+## Using HTTPS Cloudinary URLs
 
-#### 0.9.0
+If you set `secure` to `true` in `config.js`, your blog will use secure (https) URLs.
 
-* [New] Scheduled posts - tell Ghost to publish your post sometime in the future 🕑
-* [New] Configurable blog timezone - super important for making scheduled posts work the way you expect.
-* [New] Internal tags (Beta) - use tags for managing content without them appearing in your theme
-* [Improved] Install & upgrade process by removing dependency on semver which regularly broke npm
-* [Improved] Better error handling for visitors and admin users whilst performing upgrades
-* [Fixed] "Access Denied" errors when uploading images
-* [Fixed] Editing a post via the API without providing a tags list would delete the post's tags 😱
-* [Fixed] Problems running in nested sub-directories, e.g. mysite.com/my/blog
-* [Fixed] Session handling on intermittent connections - it should now be easier to stay logged in
-* [Changed] Referrer policy changed from origin to origin-when-cross-origin to improve in-site analytics
-* [Changed] Node v4 is now the recommended node version for running Ghost 🎉
+```javascript
+storage: {
+    active: 'ghost-cloudinary-store',
+    'ghost-cloudinary-store': {
+      secure: true
+    }
+}
+```
 
-#### 0.8.0
-
-* [New] Subscribers (Beta) - enable in labs to collect email addresses from your blog
-* [New] Slack integration - notify a slack channel whenever a new blog post is published
-* [New] Twitter & Facebook support - add your social profiles to your blog and users, get a meta data boost
-* [New] HTTP2 Preload headers - get super speed with CloudFlare
-* [Changed] Image uploader - improved editor performance and a smoother upload experience
-* [Changed] theme API breaking changes - see here for the details
-* [Fixed] Errors in JSON-LD structured data output on blog posts & author pages
-
-#### 0.7.9
-
-* [Improved] Static pages now have structured data, just like posts, so they will pass validation for twitter cards and other social media sharing tools.
-* [Improved] Relaxed CORS handling, meaning less people should have issues logging in to their blog if their URL isn't configured exactly right.
-* [Improved] Draft post slugs (urls) are updated when the title changes, so that you don't get weird half-titles in slugs anymore.
-* [Fixed] Static files immediately result in a 404, because trying a filename with a trailing slash on the end is never going to result in a happier ending.
-* [Fixed] Incorrect preview link & icon position in the editor making it easier to preview your post by clicking the word "preview" at the bottom of the editor.
-* [Fixed] Requesting url as a field from the Posts API didn't return the correct response (Public API Beta).
-* [Changed] Trusted domains now require their protocol be included. See below for details (Public API Beta).
-
-#### 0.7.8
-
-* [Fixed] Unable to add an existing tag to a new post
-
-And from 0.7.7...
-
-* [Fixed] Node v4 LTS support handles 4.3 and all future v4 LTS versions 🚀
-* [Fixed] Settings cache cleared on import, so your blog will now look correct without needing a restart
-* [Fixed] Various issues with navigation - the UI behaves better, and you'll no longer get ignored by {{current}} if you forget a trailing slash.
-* [Fixed] API serving invalid status codes, which was a potential source of crashes 💥
-* [New] The delete all content button now creates a backup file first... just in case 😉
-And much more...
+[1]: #editing-configjs
+[2]: http://cloudinary.com/documentation/node_additional_topics#configuration_options
+[3]: https://www.digitalocean.com/community/tutorials/how-to-read-and-set-environmental-and-shell-variables-on-a-linux-vps
+[4]: https://github.com/sethbrasile/ghost-cloudinary-store/issues/1

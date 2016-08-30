@@ -3,12 +3,13 @@
 #
 
 # Pull base image (based on Debian)
-FROM node:4.2
+FROM node:4.5
 
 #Install Base package needed to install Ghost
 RUN apt-get -y update
 RUN apt-get -y install unzip
 RUN apt-get -y install cron
+RUN apt-get -y install git
 
 
 # Install Ghost
@@ -22,7 +23,7 @@ COPY run-ghost.sh /run-ghost.sh
 RUN chmod 755 /run-ghost.sh
 COPY config.js /ghost/config.js
 
-#Install Ghost SimeMap
+#Install Ghost SiteMap
 RUN npm install -g ghost-sitemap
 
 RUN useradd ghost --home /ghost -u 1000
@@ -34,7 +35,7 @@ USER ghost
 ENV HOME /ghost
 RUN cd /ghost && \
   npm cache clean && \
-  npm install --production 
+  npm install --production
 
 # Update Ghost to serve sitemap files
 #COPY original.middleware.index.js /tmp/original.middleware.index.js
@@ -42,6 +43,17 @@ RUN cd /ghost && \
 #RUN dockerfile=$(md5sum /tmp/original.middleware.index.js)
 #RUN [[ $newfile != $dockerfile ]] && echo "WARNING: Docker need to be updated!"
 #COPY middleware.index.js /ghost/core/server/middleware/index.js
+
+#Install Cloudinary Store
+RUN cd /ghost && \
+  git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
+  cd ghost-cloudinary-store && \
+  git checkout update_ghost_0.10.0 && \
+  npm install && \
+  mkdir /ghost/content/storage && \
+  cp -r /ghost/ghost-cloudinary-store /ghost/content/storage/ghost-cloudinary-store && \
+  rm -rf /ghost/ghost-cloudinary-store
+
 
 # Define working directory.
 WORKDIR /ghost
