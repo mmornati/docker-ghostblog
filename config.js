@@ -28,7 +28,10 @@ config = {
         },
 
         storage: {
-            active: 'ghost-cloudinary-store'
+            active: 'ghost-cloudinary-store',
+	    'ghost-cloudinary-store': {
+                secure: true
+            }
         }
     },
 
