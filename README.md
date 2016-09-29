@@ -46,6 +46,19 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.11.0
+
+* [Fixed] Typing a space in the search bar no longer completes the search 🔍
+* [Fixed] Date migrations for sqlite3/postgres blogs that were running in UTC 🕓
+* [Fixed] AMP and previews now work properly when running Ghost in a subdirectory.
+* [Fixed] Scheduling now works when blogs are run in a subdirectory ⏰
+* [Fixed] Internal tags no longer appear in meta data or RSS feeds.
+* [Fixed] More fixes for theme uploads causing unsupported type errors when they shouldn't 🐛
+* [Fixed] Uploading over the top of an active theme now correctly reloads the theme & clears the cache 💥
+* [Fixed] Issue with lodash when Ghost installed as an npm module.
+* [Fixed] Sitemaps were sometimes rendering without any content 🔦
+* [Changed] Downgraded missing {{asset}} helpers in themes to a warning so they can still be used with caution.
+
 #### 0.10.0
 
 * [New] AMP (Accelerated Mobile Pages) - deliver optimised content for mobile users
