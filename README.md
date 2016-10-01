@@ -47,6 +47,14 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.11.1 
+
+* [Fixed] Theme refreshes on activation && override, so that Ghost(Pro) users don't get stuck in a cache-based-purgatory ♻️
+* [Fixed] Logic around date migrations, which caused some people with SQLite3 to not get migrated yet ⏱
+* [Fixed] Error when trying to delete a user that has posts 📚
+* [Fixed] Messaging around account locking 🔐
+* [Improved] Initial database creation now happens in a transaction 🎉
+
 #### 0.11.0
 
 * [Fixed] Typing a space in the search bar no longer completes the search 🔍
