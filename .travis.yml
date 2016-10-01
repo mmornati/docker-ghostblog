@@ -1,0 +1,23 @@
+services:
+    - docker
+
+before_install:
+    - docker --version
+
+install:
+    - git clone https://github.com/docker-library/official-images.git official-images
+
+# Assist with ci test debugging:
+#   - DEBUG=1
+before_script:
+    - image="mmornati/docker-ghostblog"
+    - docker build -t "$image" .
+    - docker inspect "$image"
+    - docker run -d --rm --name blogtest -p 2368:2368 -e NODE_ENV=development -e WEB_URL=http://localhost "$image"
+script:
+    - official-images/test/run.sh "$image"
+    - curl http://localhost:2368 | grep "Just a blogging platform"
+
+after_script:
+    - docker images
+    - docker stop blogtest
