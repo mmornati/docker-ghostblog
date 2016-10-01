@@ -11,6 +11,9 @@ install:
 #   - DEBUG=1
 before_script:
     - image="mmornati/docker-ghostblog"
+    - if [ -n "$TRAVIS_TAG" ]; then
+      image="$image:$TRAVIS_TAG";
+      fi
     - docker build -t "$image" .
     - docker inspect "$image"
     - docker run -d --name blogtest -p 2368:2368 -e NODE_ENV=development -e WEB_URL=http://localhost "$image"
@@ -22,3 +25,9 @@ after_script:
     - docker images
     - docker stop blogtest
     - docker rm blogtest
+
+after_success:
+  - if [ -n "$TRAVIS_TAG" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push "$image";
+    fi
