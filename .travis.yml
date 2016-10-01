@@ -13,7 +13,7 @@ before_script:
     - image="mmornati/docker-ghostblog"
     - docker build -t "$image" .
     - docker inspect "$image"
-    - docker run -d --rm --name blogtest -p 2368:2368 -e NODE_ENV=development -e WEB_URL=http://localhost "$image"
+    - docker run -d --name blogtest -p 2368:2368 -e NODE_ENV=development -e WEB_URL=http://localhost "$image"
 script:
     - official-images/test/run.sh "$image"
     - curl http://localhost:2368 | grep "Just a blogging platform"
@@ -21,3 +21,4 @@ script:
 after_script:
     - docker images
     - docker stop blogtest
+    - docker rm blogtest
