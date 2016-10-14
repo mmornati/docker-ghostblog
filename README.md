@@ -47,6 +47,12 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+* [Fixed] The memory leak is really actually gone this time 🤐
+* [Fixed] Removed deprecated body classes from Casper 🙅🏽
+* [Fixed] Allow database migrations to run if the active theme is not present 🐛
+* [Security] Prevent bad urls from being passed to the subscribers page 🚫
+* And several dependency updates
+
 #### 0.11.1 
 
 * [Fixed] Theme refreshes on activation && override, so that Ghost(Pro) users don't get stuck in a cache-based-purgatory ♻️
