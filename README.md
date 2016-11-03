@@ -47,13 +47,22 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.11.3
+
+* [New] Node v6 LTS support - Ghost now officially works with Node ^6.9.0 ⬆️
+* [Removed] Node v0.10.x support - Node v0.10 is no longer maintained ⬇️
+* [Fixed] Issue where not all posts would be rescheduled after a restart ⏱
+* [Fixed] Several minor issues with the Casper theme 🎨
+
+#### 0.11.2
+
 * [Fixed] The memory leak is really actually gone this time 🤐
 * [Fixed] Removed deprecated body classes from Casper 🙅🏽
 * [Fixed] Allow database migrations to run if the active theme is not present 🐛
 * [Security] Prevent bad urls from being passed to the subscribers page 🚫
 * And several dependency updates
 
-#### 0.11.1 
+#### 0.11.1
 
 * [Fixed] Theme refreshes on activation && override, so that Ghost(Pro) users don't get stuck in a cache-based-purgatory ♻️
 * [Fixed] Logic around date migrations, which caused some people with SQLite3 to not get migrated yet ⏱
