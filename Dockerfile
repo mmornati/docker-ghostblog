@@ -22,7 +22,7 @@ COPY run-ghost.sh /run-ghost.sh
 RUN chmod 755 /run-ghost.sh
 COPY config.js /ghost/config.js
 
-RUN useradd ghost --home /ghost -u 1000
+RUN useradd ghost --home /ghost -u 1276
 RUN chown -R ghost:ghost /ghost
 RUN mkdir /ghost-override
 RUN chown -R ghost:ghost /ghost-override
