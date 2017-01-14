@@ -47,6 +47,18 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.11.4
+
+[New] ✨ Define redirects as JSON file
+[New] ✨ Make AMP optional
+[Removed] ⬇️ Drop Node v0.12.x support - Node v0.12 is no longer maintained
+[Fixed] Import subscribers on database import
+[Fixed] Fix admin redirect, when using a subdirectory
+[Security] Expand subscriber email validation
+[Security] Escape sameAs for structured data
+[Security] Detect symlinks when uploading themes via the admin panel
+many dependency updates
+
 #### 0.11.3
 
 * [New] Node v6 LTS support - Ghost now officially works with Node ^6.9.0 ⬆️
