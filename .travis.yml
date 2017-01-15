@@ -32,7 +32,5 @@ after_script:
     - docker rm blogtest
 
 after_success:
-  - if [ -n "$TRAVIS_TAG" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push "$image";
-    fi

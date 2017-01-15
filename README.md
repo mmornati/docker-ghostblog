@@ -4,7 +4,7 @@
 
 ### Base Docker Image
 
-* [node:4.5](https://registry.hub.docker.com/_/node/)
+* [node:6.9](https://registry.hub.docker.com/_/node/)
 
 
 ### Installation
