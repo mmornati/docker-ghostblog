@@ -3,7 +3,7 @@
 #
 
 # Pull base image (based on Debian)
-FROM node:6.10-alpine
+FROM node:6.10
 
 #Install Base package needed to install Ghost
 RUN apt-get -y update
