@@ -25,6 +25,13 @@ config = {
             host: '__SERVER_HOST__',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '__SERVER_PORT__'
+        },
+
+        storage: {
+            active: 'ghost-cloudinary-store',
+	    'ghost-cloudinary-store': {
+                secure: true
+            }
         }
     },
 
@@ -61,6 +68,9 @@ config = {
             host: '__SERVER_HOST__',
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: '__SERVER_PORT__'
+        },
+        storage: {
+            active: 'ghost-cloudinary-store'
         },
         paths: {
             contentPath: path.join(__dirname, '/content/')

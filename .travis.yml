@@ -1,0 +1,36 @@
+services:
+    - docker
+
+before_install:
+    - docker --version
+
+install:
+    - git clone https://github.com/docker-library/official-images.git official-images
+
+# Assist with ci test debugging:
+#   - DEBUG=1
+before_script:
+    - image="mmornati/docker-ghostblog"
+    - if [ -n "$TRAVIS_TAG" ]; then
+      image="$image:$TRAVIS_TAG";
+      fi
+    - docker build -t "$image" .
+    - docker inspect "$image"
+    - docker run -d --name blogtest -p 2368:2368 -e NODE_ENV=development -e WEB_URL=http://localhost "$image"
+    - until nc -z $(docker inspect --format='{{.NetworkSettings.IPAddress}}' blogtest) 2368; do
+          echo "waiting for ghostblog container...";
+          sleep 2;
+      done
+    - echo "GhostTest available..."
+script:
+    - official-images/test/run.sh "$image"
+    - curl http://localhost:2368 | grep "Just a blogging platform"
+
+after_script:
+    - docker images
+    - docker stop blogtest
+    - docker rm blogtest
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push "$image";
