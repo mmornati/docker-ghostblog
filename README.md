@@ -47,6 +47,11 @@ A complete running command line could be:
 
 ### Ghost Updates
 
+#### 0.11.11
+[New] Forwards compatibility has been added for Ghost 1.0 themes to allow for smoother upgrades
+[Improved] Protections against invalid dates in imports were added - previously it was possible to import invalid dates which would then cause the front-end to hang on certain requests
+[Fixed] Autosaving of new posts is now behaving correctly again
+
 #### 0.11.4
 
 [New] ✨ Define redirects as JSON file
