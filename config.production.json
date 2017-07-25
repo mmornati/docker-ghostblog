@@ -1,0 +1,32 @@
+{
+  "url": "http://localhost:2368/",
+  "server": {
+    "port": 2368,
+    "host": "0.0.0.0"
+  },
+  "database": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "/ghost-override/content/data/ghost-local.db"
+    }
+  },
+  "mail": {
+    "transport": "Direct"
+  },
+  "logging": {
+    "transports": [
+      "file",
+      "stdout"
+    ]
+  },
+  "storage": {
+      "active": "ghost-cloudinary-store",
+      "ghost-cloudinary-store": {
+          "secure": "true"
+      }
+  },
+  "process": "local",
+  "paths": {
+    "contentPath": "/ghost-override/content"
+  }
+}

@@ -12,15 +12,21 @@ RUN apt-get -y install cron
 RUN apt-get -y install git
 
 # Install Ghost
-RUN \
-  cd /tmp && \
-  wget https://ghost.org/zip/ghost-latest.zip && \
-  unzip ghost-latest.zip -d /ghost && \
-  rm -f ghost-latest.zip
+RUN npm install -g knex-migrator
+RUN npm install -g ghost-cli
 
-COPY run-ghost.sh /run-ghost.sh
-RUN chmod 755 /run-ghost.sh
-COPY config.js /ghost/config.js
+RUN mkdir /ghost
+#RUN \
+#  cd /tmp && \
+  #wget https://ghost.org/zip/ghost-latest.zip && \
+#  wget https://github.com/TryGhost/Ghost/releases/download/1.0.0/Ghost-1.0.0.zip && \
+  #unzip ghost-latest.zip -d /ghost && \
+#  unzip Ghost-1.0.0.zip -d /ghost && \
+#  rm -f Ghost-1.0.0.zip
+
+#COPY run-ghost.sh /run-ghost.sh
+#RUN chmod 755 /run-ghost.sh
+#COPY config.js /ghost/config.js
 
 RUN useradd ghost --home /ghost -u 1276
 RUN chown -R ghost:ghost /ghost
@@ -29,19 +35,23 @@ RUN chown -R ghost:ghost /ghost-override
 
 USER ghost
 ENV HOME /ghost
-RUN cd /ghost && \
-  npm cache clean && \
-  npm install --production
+RUN mkdir /ghost/blog
+RUN cd /ghost/blog && \
+   ghost install local
+#  npm cache clean && \
+#  npm install --production
 
 #Install Cloudinary Store
 RUN cd /ghost && \
   git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
   cd ghost-cloudinary-store && \
-  git checkout update_ghost_0.10.0 && \
+  git checkout update_ghost_1.0.0 && \
   npm install && \
-  mkdir /ghost/content/storage && \
-  cp -r /ghost/ghost-cloudinary-store /ghost/content/storage/ghost-cloudinary-store && \
+  mkdir -p /ghost/blog/content/adapters/storage && \
+  cp -r /ghost/ghost-cloudinary-store /ghost/blog/content/adapters/storage/ghost-cloudinary-store && \
   rm -rf /ghost/ghost-cloudinary-store
+
+COPY config.production.json /ghost/blog
 
 # Define working directory.
 WORKDIR /ghost
@@ -56,4 +66,4 @@ EXPOSE 2368
 VOLUME ["/ghost-override"]
 
 # Define default command.
-CMD ["/run-ghost.sh"]
+CMD ["ghost run production]
