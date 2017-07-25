@@ -33,6 +33,7 @@ RUN cd /ghost/blog && \
    ghost install local
 
 COPY config.production.json /ghost/blog
+COPY config.development.json /ghost/blog
 
 #Install Cloudinary Store into the internal modules
 #RUN mkdir /ghost/blog/versions/1.0.0/core/server/adapters/storage
