@@ -4,6 +4,7 @@
 
 # Pull base image (based on Debian)
 FROM node:6.10
+MAINTAINER Marco Mornati <marco@mornati.net>
 
 #Install Base package needed to install Ghost
 RUN apt-get -y update
@@ -12,36 +13,35 @@ RUN apt-get -y install cron
 RUN apt-get -y install git
 
 # Install Ghost
-RUN \
-  cd /tmp && \
-  wget https://ghost.org/zip/ghost-latest.zip && \
-  unzip ghost-latest.zip -d /ghost && \
-  rm -f ghost-latest.zip
+RUN npm install -g knex-migrator
+RUN npm install -g ghost-cli
 
-COPY run-ghost.sh /run-ghost.sh
-RUN chmod 755 /run-ghost.sh
-COPY config.js /ghost/config.js
+RUN mkdir /ghost
 
 RUN useradd ghost --home /ghost -u 1276
 RUN chown -R ghost:ghost /ghost
 RUN mkdir /ghost-override
 RUN chown -R ghost:ghost /ghost-override
 
+COPY run-ghost.sh /ghost
+RUN chmod +x /ghost/run-ghost.sh
+
 USER ghost
 ENV HOME /ghost
-RUN cd /ghost && \
-  npm cache clean && \
-  npm install --production
+RUN mkdir /ghost/blog
+RUN cd /ghost/blog && \
+   ghost install local
 
-#Install Cloudinary Store
-RUN cd /ghost && \
+COPY config.production.json /ghost/blog
+COPY config.development.json /ghost/blog
+
+#Install Cloudinary Store into the internal modules
+#RUN mkdir /ghost/blog/versions/1.0.0/core/server/adapters/storage
+RUN cd /ghost/blog/versions/1.0.0/core/server/adapters/storage && \
   git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
   cd ghost-cloudinary-store && \
-  git checkout update_ghost_0.10.0 && \
-  npm install && \
-  mkdir /ghost/content/storage && \
-  cp -r /ghost/ghost-cloudinary-store /ghost/content/storage/ghost-cloudinary-store && \
-  rm -rf /ghost/ghost-cloudinary-store
+  git checkout update_ghost_1.0.0 && \
+  npm install
 
 # Define working directory.
 WORKDIR /ghost
@@ -52,8 +52,12 @@ ENV NODE_ENV production
 # Expose ports.
 EXPOSE 2368
 
+#HealthCheck
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost:2368/ || exit 1
+
 # Define mountable directories.
 VOLUME ["/ghost-override"]
 
 # Define default command.
-CMD ["/run-ghost.sh"]
+CMD ["/ghost/run-ghost.sh"]

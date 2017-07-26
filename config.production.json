@@ -1,0 +1,32 @@
+{
+  "url": "__WEB_URL__",
+  "server": {
+    "port": __SERVER_PORT__,
+    "host": "__SERVER_HOST__"
+  },
+  "database": {
+    "client": "__DB_CLIENT__",
+    "connection": {
+      "filename": "__DB_SQLITE_PATH__"
+    }
+  },
+  "mail": {
+    "transport": "Direct"
+  },
+  "logging": {
+    "transports": [
+      "file",
+      "stdout"
+    ]
+  },
+  "storage": {
+      "active": "ghost-cloudinary-store",
+      "ghost-cloudinary-store": {
+          "secure": "true"
+      }
+  },
+  "process": "local",
+  "paths": {
+    "contentPath": "/ghost-override/content"
+  }
+}
