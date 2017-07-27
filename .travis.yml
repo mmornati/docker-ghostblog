@@ -24,7 +24,7 @@ before_script:
     - echo "GhostTest available..."
 script:
     - official-images/test/run.sh "$image"
-    - curl http://localhost:2368 | grep "Just a blogging platform"
+    - curl http://localhost:2368 | grep "The professional publishing platform"
 
 after_script:
     - docker images
