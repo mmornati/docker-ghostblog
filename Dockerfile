@@ -37,7 +37,7 @@ COPY config.development.json /ghost/blog
 
 #Install Cloudinary Store into the internal modules
 #RUN mkdir /ghost/blog/versions/1.0.0/core/server/adapters/storage
-RUN cd /ghost/blog/versions/1.0.0/core/server/adapters/storage && \
+RUN cd /ghost/blog/versions/1.0.2/core/server/adapters/storage && \
   git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
   cd ghost-cloudinary-store && \
   git checkout update_ghost_1.0.0 && \

@@ -22,7 +22,10 @@
   "storage": {
       "active": "ghost-cloudinary-store",
       "ghost-cloudinary-store": {
+        "configuration": {
+          "quality": "auto:good",
           "secure": "true"
+       }
       }
   },
   "process": "local",
