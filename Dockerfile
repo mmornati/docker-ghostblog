@@ -25,9 +25,12 @@ RUN chown -R ghost:ghost /ghost-override
 
 COPY run-ghost.sh /ghost
 RUN chmod +x /ghost/run-ghost.sh
+COPY migrate-database.sh /ghost
+RUN chmod +x /ghost/migrate-database.sh
 
 USER ghost
 ENV HOME /ghost
+ENV GHOST_VERSION 1.5.0
 RUN mkdir /ghost/blog
 RUN cd /ghost/blog && \
    ghost install local
@@ -35,9 +38,12 @@ RUN cd /ghost/blog && \
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
 
+COPY MigratorConfig.js /ghost/blog
+
+
 #Install Cloudinary Store into the internal modules
 #RUN mkdir /ghost/blog/versions/1.0.0/core/server/adapters/storage
-RUN cd /ghost/blog/versions/1.0.2/core/server/adapters/storage && \
+RUN cd /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage && \
   git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
   cd ghost-cloudinary-store && \
   git checkout update_ghost_1.0.0 && \

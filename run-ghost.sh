@@ -1,4 +1,14 @@
 #!/bin/bash
+verbose='false'
+start='true'
+while getopts 'dv' flag; do
+  case "${flag}" in
+    d) start='false' ;;
+    v) verbose='true' ;;
+    *) start='true' ;;
+  esac
+done
+
 CONFIG="/ghost/blog/config.production.json"
 
 # Set Config
@@ -38,7 +48,12 @@ sed -i "s|__DB_SQLITE_PATH__|$DB_SQLITE_PATH|g" $CONFIG
 sed -i "s|__SERVER_HOST__|$SERVER_HOST|g" $CONFIG
 sed -i "s|__SERVER_PORT__|$SERVER_PORT|g" $CONFIG
 
-cat $CONFIG
+if [[ $verbose == 'true' ]]; then
+	cat $CONFIG
+fi
 
-# Start Ghost
-cd /ghost/blog && ghost run production
+
+if [[ $start == 'true' ]]; then
+	# Start Ghost
+	cd /ghost/blog && ghost run production
+fi
