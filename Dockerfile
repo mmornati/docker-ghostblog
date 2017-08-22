@@ -30,10 +30,10 @@ RUN chmod +x /ghost/migrate-database.sh
 
 USER ghost
 ENV HOME /ghost
-ENV GHOST_VERSION 1.5.1
+ENV GHOST_VERSION 1.5.2
 RUN mkdir /ghost/blog
 RUN cd /ghost/blog && \
-   ghost install local
+   ghost install $GHOST_VERSION --local
 
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
