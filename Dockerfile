@@ -30,7 +30,7 @@ RUN chmod +x /ghost/migrate-database.sh
 
 USER ghost
 ENV HOME /ghost
-ENV GHOST_VERSION 1.6.2
+ENV GHOST_VERSION 1.7.0
 RUN mkdir /ghost/blog
 RUN cd /ghost/blog && \
    ghost install $GHOST_VERSION --local
