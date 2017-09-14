@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 verbose='false'
 start='true'
 while getopts 'dv' flag; do

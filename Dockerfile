@@ -2,52 +2,52 @@
 # Ghost blog.mornati.net
 #
 
-# Pull base image (based on Debian)
-FROM node:6.10
-MAINTAINER Marco Mornati <marco@mornati.net>
+#Build step for Ghost Plugins
+FROM mhart/alpine-node:6.11.3 as plugin-builder
+WORKDIR /builder
+ADD https://github.com/mmornati/ghost-cloudinary-store/archive/update_ghost_1.0.0.zip .
+RUN unzip update_ghost_1.0.0.zip && \
+  mv ghost-cloudinary-store-update_ghost_1.0.0 ghost-cloudinary-store && \
+  cd ghost-cloudinary-store && \ 
+  npm install --production --loglevel=error
 
-#Install Base package needed to install Ghost
-RUN apt-get -y update
-RUN apt-get -y install unzip
-RUN apt-get -y install cron
-RUN apt-get -y install git
+#Build step for Ghost Image
+FROM node:6.11.3 as ghost-builder
+RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
-# Install Ghost
-RUN npm install -g knex-migrator
-RUN npm install -g ghost-cli
-
-RUN mkdir /ghost
-
-RUN useradd ghost --home /ghost -u 1276
-RUN chown -R ghost:ghost /ghost
-RUN mkdir /ghost-override
-RUN chown -R ghost:ghost /ghost-override
+WORKDIR /ghost
 
 COPY run-ghost.sh /ghost
-RUN chmod +x /ghost/run-ghost.sh
 COPY migrate-database.sh /ghost
-RUN chmod +x /ghost/migrate-database.sh
 
-USER ghost
-ENV HOME /ghost
 ENV GHOST_VERSION 1.8.5
-RUN mkdir /ghost/blog
-RUN cd /ghost/blog && \
-   ghost install $GHOST_VERSION --local
+RUN adduser -h /ghost -u 1276 -D ghost ghost && \
+    mkdir /ghost/blog && \
+    cd /ghost/blog && \
+    ghost install $GHOST_VERSION --local
 
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
 
 COPY MigratorConfig.js /ghost/blog
-
-
 #Install Cloudinary Store into the internal modules
-#RUN mkdir /ghost/blog/versions/1.0.0/core/server/adapters/storage
-RUN cd /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage && \
-  git clone https://github.com/mmornati/ghost-cloudinary-store.git && \
-  cd ghost-cloudinary-store && \
-  git checkout update_ghost_1.0.0 && \
-  npm install
+COPY --from=plugin-builder /builder/ghost-cloudinary-store /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage/ghost-cloudinary-store
+
+#Create the Docker Ghost Blog
+FROM mhart/alpine-node:6.11.3
+LABEL maintainer="Marco Mornati <marco@mornati.net>"
+
+# Install Ghost
+COPY --from=ghost-builder /ghost /ghost
+RUN adduser -h /ghost -u 1276 -D ghost ghost && \
+  chown -R ghost:ghost /ghost && \
+  mkdir /ghost-override && \
+  chown -R ghost:ghost /ghost-override
+
+RUN npm install --loglevel=error -g knex-migrator ghost-cli
+
+USER ghost
+ENV HOME /ghost
 
 # Define working directory.
 WORKDIR /ghost
@@ -66,4 +66,4 @@ HEALTHCHECK --interval=5m --timeout=3s \
 VOLUME ["/ghost-override"]
 
 # Define default command.
-CMD ["/ghost/run-ghost.sh"]
+CMD ["/bin/sh", "/ghost/run-ghost.sh"]

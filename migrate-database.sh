@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 CONFIG="/ghost/blog/MigratorConfig.js"
 
 if [ -z "$DB_SQLITE_PATH" ]; then

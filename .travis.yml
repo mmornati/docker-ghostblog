@@ -4,6 +4,11 @@ services:
 before_install:
     - docker --version
 
+addons:
+  apt:
+    packages:
+      - docker-ce
+
 install:
     - git clone https://github.com/docker-library/official-images.git official-images
 
