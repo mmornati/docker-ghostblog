@@ -55,6 +55,7 @@ WORKDIR /ghost
 
 # Set environment variables.
 ENV NODE_ENV production
+ENV GHOST_VERSION 1.8.5
 
 # Expose ports.
 EXPOSE 2368

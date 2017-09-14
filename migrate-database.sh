@@ -13,5 +13,5 @@ sed -i "s|__GHOST_NEW_VERSION__|$GHOST_VERSION|g" $CONFIG
 echo "Executing using the following MigratorConfig.js file"
 cat $CONFIG
 
-/ghost/run-ghost.sh -d
+/bin/sh /ghost/run-ghost.sh -d
 cd /ghost/blog && knex-migrator migrate
