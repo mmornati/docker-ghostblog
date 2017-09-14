@@ -3,7 +3,7 @@
 #
 
 #Build step for Ghost Plugins
-FROM mhart/alpine-node:6.11.3 as plugin-builder
+FROM node:6.11.3-alpine as plugin-builder
 WORKDIR /builder
 ADD https://github.com/mmornati/ghost-cloudinary-store/archive/update_ghost_1.0.0.zip .
 RUN unzip update_ghost_1.0.0.zip && \
@@ -12,19 +12,18 @@ RUN unzip update_ghost_1.0.0.zip && \
   npm install --production --loglevel=error
 
 #Build step for Ghost Image
-FROM node:6.11.3 as ghost-builder
+FROM node:6.10 as ghost-builder
 RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
-WORKDIR /ghost
-
-COPY run-ghost.sh /ghost
-COPY migrate-database.sh /ghost
-
 ENV GHOST_VERSION 1.8.5
-RUN adduser -h /ghost -u 1276 -D ghost ghost && \
+RUN addgroup --system -gid 1276 ghost && \
+    adduser --system --home /ghost --ingroup ghost --uid 1276 ghost && \
     mkdir /ghost/blog && \
     cd /ghost/blog && \
     ghost install $GHOST_VERSION --local
+
+COPY run-ghost.sh /ghost
+COPY migrate-database.sh /ghost
 
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
@@ -34,15 +33,17 @@ COPY MigratorConfig.js /ghost/blog
 COPY --from=plugin-builder /builder/ghost-cloudinary-store /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage/ghost-cloudinary-store
 
 #Create the Docker Ghost Blog
-FROM mhart/alpine-node:6.11.3
+FROM node:6.11.3-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 # Install Ghost
+RUN addgroup -S -g 1276 ghost && \
+    adduser -S -h /ghost -G ghost -u 1276 ghost
+
 COPY --from=ghost-builder /ghost /ghost
-RUN adduser -h /ghost -u 1276 -D ghost ghost && \
-  chown -R ghost:ghost /ghost && \
-  mkdir /ghost-override && \
-  chown -R ghost:ghost /ghost-override
+RUN chown -R ghost:ghost /ghost && \
+    mkdir /ghost-override && \
+    chown -R ghost:ghost /ghost-override
 
 RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
