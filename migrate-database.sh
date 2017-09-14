@@ -1,6 +1,6 @@
 #!/bin/sh
 CONFIG="/ghost/blog/MigratorConfig.js"
-
+GHOST_VERSION=`cat /ghost/version`
 if [ -z "$DB_SQLITE_PATH" ]; then
         echo "DB_SQLITE_PATH is empty. Getting default: /ghost-override/content/data/ghost-local.db"
         DB_SQLITE_PATH=/ghost-override/content/data/ghost-local.db

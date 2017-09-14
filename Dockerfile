@@ -15,12 +15,13 @@ RUN unzip update_ghost_1.0.0.zip && \
 FROM node:6.10 as ghost-builder
 RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
-ENV GHOST_VERSION 1.8.5
+ENV GHOST_VERSION 1.8.6
 RUN addgroup --system -gid 1276 ghost && \
     adduser --system --home /ghost --ingroup ghost --uid 1276 ghost && \
     mkdir /ghost/blog && \
     cd /ghost/blog && \
-    ghost install $GHOST_VERSION --local
+    ghost install $GHOST_VERSION --local && \
+    echo $GHOST_VERSION > /ghost/version
 
 COPY run-ghost.sh /ghost
 COPY migrate-database.sh /ghost
@@ -55,7 +56,6 @@ WORKDIR /ghost
 
 # Set environment variables.
 ENV NODE_ENV production
-ENV GHOST_VERSION 1.8.5
 
 # Expose ports.
 EXPOSE 2368
