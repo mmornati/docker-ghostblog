@@ -24,12 +24,9 @@ RUN addgroup --system -gid 1276 ghost && \
     echo $GHOST_VERSION > /ghost/version
 
 COPY run-ghost.sh /ghost
-COPY migrate-database.sh /ghost
-
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
 
-COPY MigratorConfig.js /ghost/blog
 #Install Cloudinary Store into the internal modules
 COPY --from=plugin-builder /builder/ghost-cloudinary-store /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage/ghost-cloudinary-store
 
