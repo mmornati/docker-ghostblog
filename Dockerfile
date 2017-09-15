@@ -46,7 +46,7 @@ RUN chown -R ghost:ghost /ghost && \
     mkdir /ghost-override && \
     chown -R ghost:ghost /ghost-override
 
-RUN npm install --loglevel=error -g knex-migrator ghost-cli
+#RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
 USER ghost
 ENV HOME /ghost
