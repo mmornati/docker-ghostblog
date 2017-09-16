@@ -5,9 +5,9 @@
 #Build step for Ghost Plugins
 FROM node:6.11.3-alpine as plugin-builder
 WORKDIR /builder
-ADD https://github.com/mmornati/ghost-cloudinary-store/archive/update_ghost_1.0.0.zip .
-RUN unzip update_ghost_1.0.0.zip && \
-  mv ghost-cloudinary-store-update_ghost_1.0.0 ghost-cloudinary-store && \
+ADD https://github.com/mmornati/ghost-cloudinary-store/archive/master.zip .
+RUN unzip master.zip && \
+  mv ghost-cloudinary-store-master ghost-cloudinary-store && \
   cd ghost-cloudinary-store && \ 
   npm install --production --loglevel=error
 
