@@ -59,7 +59,7 @@ EXPOSE 2368
 
 #HealthCheck
 HEALTHCHECK --interval=5m --timeout=3s \
-  CMD curl -f http://localhost:2368/ || exit 1
+  CMD echo "GET / HTTP/1.1" | nc -v localhost 2368 || exit 1
 
 # Define mountable directories.
 VOLUME ["/ghost-override"]
