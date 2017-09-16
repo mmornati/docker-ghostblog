@@ -21,12 +21,19 @@
   },
   "storage": {
       "active": "ghost-cloudinary-store",
-      "ghost-cloudinary-store": {
-        "configuration": {
+      "configuration": {
+        "image": {
           "quality": "auto:good",
           "secure": "true"
-       }
-      }
+        },
+        "file": {
+          "use_filename": "true", 
+          "unique_filename": "false", 
+          "phash": "true", 
+          "overwrite": "false", 
+          "invalidate": "true"
+        }       
+     }
   },
   "process": "local",
   "paths": {
