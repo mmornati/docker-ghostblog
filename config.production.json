@@ -19,22 +19,6 @@
       "stdout"
     ]
   },
-  "storage": {
-      "active": "ghost-cloudinary-store",
-      "configuration": {
-        "image": {
-          "quality": "auto:good",
-          "secure": "true"
-        },
-        "file": {
-          "use_filename": "true", 
-          "unique_filename": "false", 
-          "phash": "true", 
-          "overwrite": "false", 
-          "invalidate": "true"
-        }       
-     }
-  },
   "process": "local",
   "paths": {
     "contentPath": "/ghost-override/content"

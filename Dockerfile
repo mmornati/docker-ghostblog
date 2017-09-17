@@ -1,18 +1,9 @@
 #
-# Ghost blog.mornati.net
+# Base Docker to run a SQLite Ghost Blog
 #
 
-#Build step for Ghost Plugins
-FROM node:6.11.3-alpine as plugin-builder
-WORKDIR /builder
-ADD https://github.com/mmornati/ghost-cloudinary-store/archive/master.zip .
-RUN unzip master.zip && \
-  mv ghost-cloudinary-store-master ghost-cloudinary-store && \
-  cd ghost-cloudinary-store && \ 
-  npm install --production --loglevel=error
-
 #Build step for Ghost Image
-FROM node:6.10 as ghost-builder
+FROM node:6.11.3 as ghost-builder
 RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
 ENV GHOST_VERSION 1.8.6
@@ -26,9 +17,6 @@ RUN addgroup --system -gid 1276 ghost && \
 COPY run-ghost.sh /ghost
 COPY config.production.json /ghost/blog
 COPY config.development.json /ghost/blog
-
-#Install Cloudinary Store into the internal modules
-COPY --from=plugin-builder /builder/ghost-cloudinary-store /ghost/blog/versions/$GHOST_VERSION/core/server/adapters/storage/ghost-cloudinary-store
 
 #Create the Docker Ghost Blog
 FROM node:6.11.3-alpine

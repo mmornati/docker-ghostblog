@@ -42,6 +42,5 @@ services:
       - WEB_URL=https://your.virtualhost.net
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=2368
-      - CLOUDINARY_URL=cloudinary://key@your-virtualhost-net
       - LETSENCRYPT_HOST=your.virtualhost.net
       - LETSENCRYPT_EMAIL=your@email.net
