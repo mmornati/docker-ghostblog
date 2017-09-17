@@ -38,13 +38,13 @@ Environment variables are used to personalise your Ghost Blog configuration. Cou
 * DB_SQLITE_PATH: sqlite data file path (default: /content/data/ghost.db)
 * SERVER_HOST: hostname/ip used to expose the blog (default: 0.0.0.0)
 * SERVER_PORT: port used by the server (default: 2638).
-* CLOUDINARY_URL: information to connect to your cloudinary account. You can retrieve it directly on cloudinary
+
 
 > NB: Knowing the ghostblog is run using a 'non root user' (ghost), you cannot start the nodejs process on a port less than 1024.
 
 A complete running command line could be:
 
 ```bash
-docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -e CLOUDINARY_URL=cloudinary://87237872387:aaaaaaaaaaaa@blog-mornati-net -v /opt/data:/ghost-override dockerfile/ghost
+docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/ghost-override dockerfile/ghost
 ```
 
