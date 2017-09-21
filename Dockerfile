@@ -6,7 +6,7 @@
 FROM node:6.11.3 as ghost-builder
 RUN npm install --loglevel=error -g knex-migrator ghost-cli
 
-ENV GHOST_VERSION 1.8.6
+ENV GHOST_VERSION 1.8.7
 RUN addgroup --system -gid 1276 ghost && \
     adduser --system --home /ghost --ingroup ghost --uid 1276 ghost && \
     mkdir /ghost/blog && \
