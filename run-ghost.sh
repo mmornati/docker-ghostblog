@@ -53,6 +53,10 @@ if [[ $verbose == 'true' ]]; then
 	cat $CONFIG
 fi
 
+if [ ! -d "/ghost-override/content" ]; then
+        echo "Missing content folder. Copying the default one..."
+        cp -r /ghost/blog/content /ghost-override
+fi
 
 if [[ $start == 'true' ]]; then
 	# Start Ghost with Ghost CLI
