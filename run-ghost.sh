@@ -55,6 +55,11 @@ if [[ $verbose == 'true' ]]; then
 	cat $CONFIG
 fi
 
+if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
+        echo "Missing content folder. Copying the default one..."
+        cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
+fi
+
 if [[ $start == 'true' ]]; then
 	# Start Ghost with Ghost CLI
 	# cd /ghost/blog && ghost run production

@@ -39,6 +39,10 @@ RUN chown -R $GHOST_USER:$GHOST_USER $GHOST_INSTALL
 USER $GHOST_USER
 ENV HOME $GHOST_INSTALL
 
+#Keeping Original GhostContent to be copied into the mounted volume (if empty)
+RUN mv "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck/"; \
+	mkdir -p "$GHOST_CONTENT";
+
 # Define working directory.
 WORKDIR $GHOST_INSTALL
 
