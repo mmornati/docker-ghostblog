@@ -48,7 +48,7 @@ sed -i "s|__WEB_URL__|$WEB_URL|g" $CONFIG
 sed -i "s|__DB_CLIENT__|$DB_CLIENT|g" $CONFIG
 sed -i "s|__DB_SQLITE_PATH__|$DB_SQLITE_PATH|g" $CONFIG
 sed -i "s|__SERVER_HOST__|$SERVER_HOST|g" $CONFIG
-sed -i "s|__SERVER_PORT__|$SERVER_PORT|g" $CONFIG
+sed -i "s|\"__SERVER_PORT__\"|$SERVER_PORT|g" $CONFIG
 sed -i "s|__GHOST_CONTENT_PATH__|$GHOST_CONTENT|g" $CONFIG
 
 if [[ $verbose == 'true' ]]; then

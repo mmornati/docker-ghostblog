@@ -1,7 +1,7 @@
 {
   "url": "__WEB_URL__",
   "server": {
-    "port": __SERVER_PORT__,
+    "port": "__SERVER_PORT__",
     "host": "__SERVER_HOST__"
   },
   "database": {
