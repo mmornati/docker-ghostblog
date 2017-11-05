@@ -9,8 +9,8 @@ while getopts 'dv' flag; do
   esac
 done
 
-CONFIG="/ghost/blog/config.production.json"
-GHOST_VERSION=`cat /ghost/version`
+CONFIG="$GHOST_INSTALL/config.production.json"
+GHOST_VERSION=`cat $GHOST_INSTALL/version`
 
 # Set Config
 if [ -z "$WEB_URL" ]; then
@@ -22,8 +22,8 @@ if [ -z "$DB_CLIENT" ]; then
         DB_CLIENT=sqlite3
 fi
 if [ -z "$DB_SQLITE_PATH" ]; then
-        echo "DB_SQLITE_PATH is empty. Getting default: /ghost-override/content/data/ghost-local.db"
-        DB_SQLITE_PATH=/ghost-override/content/data/ghost-local.db
+        echo "DB_SQLITE_PATH is empty. Getting default: $GHOST_CONTENT/data/ghost-local.db"
+        DB_SQLITE_PATH=$GHOST_CONTENT/data/ghost-local.db
 fi
 if [ -z "$SERVER_HOST" ]; then
         echo "SERVER_HOST is empty. Getting default: 0.0.0.0"
@@ -41,6 +41,7 @@ echo "      DB_CLIENT:      $DB_CLIENT"
 echo "      DB_SQLITE_PATH: $DB_SQLITE_PATH"
 echo "      SERVER_HOST:    $SERVER_HOST"
 echo "      SERVER_PORT:    $SERVER_PORT"
+echo "      GHOST_CONTENT:  $GHOST_CONTENT"
 echo "========================================================================"
 
 sed -i "s|__WEB_URL__|$WEB_URL|g" $CONFIG
@@ -48,19 +49,15 @@ sed -i "s|__DB_CLIENT__|$DB_CLIENT|g" $CONFIG
 sed -i "s|__DB_SQLITE_PATH__|$DB_SQLITE_PATH|g" $CONFIG
 sed -i "s|__SERVER_HOST__|$SERVER_HOST|g" $CONFIG
 sed -i "s|__SERVER_PORT__|$SERVER_PORT|g" $CONFIG
+sed -i "s|__GHOST_CONTENT_PATH__|$GHOST_CONTENT|g" $CONFIG
 
 if [[ $verbose == 'true' ]]; then
 	cat $CONFIG
-fi
-
-if [ ! -d "/ghost-override/content" ]; then
-        echo "Missing content folder. Copying the default one..."
-        cp -r /ghost/blog/content /ghost-override
 fi
 
 if [[ $start == 'true' ]]; then
 	# Start Ghost with Ghost CLI
 	# cd /ghost/blog && ghost run production
         # Start Ghost with NODE
-        cd /ghost/blog && node versions/$GHOST_VERSION/index.js 
+        cd $GHOST_INSTALL && node versions/$GHOST_VERSION/index.js 
 fi

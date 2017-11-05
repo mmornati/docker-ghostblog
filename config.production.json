@@ -21,6 +21,6 @@
   },
   "process": "local",
   "paths": {
-    "contentPath": "/ghost-override/content"
+    "contentPath": "__GHOST_CONTENT_PATH__"
   }
 }
