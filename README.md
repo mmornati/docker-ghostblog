@@ -4,7 +4,7 @@
 
 ### Base Docker Image
 
-* [node:6.11.3-alpine](https://registry.hub.docker.com/_/node/)
+* [node:6-alpine](https://registry.hub.docker.com/_/node/)
 
 
 ### Installation
@@ -35,7 +35,7 @@ Environment variables are used to personalise your Ghost Blog configuration. Cou
 
 * WEB_URL: the url used to expose your blog (default: blog.mornati.net)
 * DB_CLIENT: database used to store blog data (default: sqlite3)
-* DB_SQLITE_PATH: sqlite data file path (default: /content/data/ghost.db)
+* DB_SQLITE_PATH: sqlite data file path (default: $GHOST_CONTENT/data/ghost.db)
 * SERVER_HOST: hostname/ip used to expose the blog (default: 0.0.0.0)
 * SERVER_PORT: port used by the server (default: 2368).
 
