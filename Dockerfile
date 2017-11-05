@@ -12,9 +12,10 @@ ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER ghost
 
 RUN addgroup --system -gid 1276 $GHOST_USER && \
-    adduser --system --home $GHOST_INSTALL --ingroup $GHOST_USER --uid 1276 $GHOST_USER && \
-    cd $GHOST_INSTALL && \
-    ghost install $GHOST_VERSION --local && \
+    adduser --system --home $GHOST_INSTALL --ingroup $GHOST_USER --uid 1276 $GHOST_USER
+
+RUN cd $GHOST_INSTALL && \
+    ghost install $GHOST_VERSION --local --dir $GHOST_INSTALL && \
     echo $GHOST_VERSION > $GHOST_INSTALL/version
 
 COPY run-ghost.sh $GHOST_INSTALL
@@ -33,15 +34,14 @@ ENV GHOST_USER ghost
 RUN addgroup -S -g 1276 $GHOST_USER && \
     adduser -S -h $GHOST_INSTALL -G $GHOST_USER -u 1276 $GHOST_USER
 
-COPY --from=ghost-builder $GHOST_INSTALL $GHOST_INSTALL
-RUN chown -R $GHOST_USER:$GHOST_USER $GHOST_INSTALL
-
 USER $GHOST_USER
+
+COPY --from=ghost-builder $GHOST_INSTALL $GHOST_INSTALL
+
 ENV HOME $GHOST_INSTALL
 
 #Keeping Original GhostContent to be copied into the mounted volume (if empty)
-RUN mv "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck/"; \
-	mkdir -p "$GHOST_CONTENT";
+RUN cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck";
 
 # Define working directory.
 WORKDIR $GHOST_INSTALL
