@@ -49,6 +49,7 @@ docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 
 
 ### Upgrade from previous version (< 1.16.2)
 
+#### Data mount volume
 If you were using this container with previous version, since the 1.16.2 we aligned the folders used inside the Docker to the ones used by the [Ghost official image](https://hub.docker.com/_/ghost/), you maybe need to change your data mount point.
 
 Before you had:
@@ -64,3 +65,15 @@ Starting from this version your mount point should change to:
 ```bash
  ... -v /opt/data/content:/var/lib/ghost/content
 ```
+
+#### Mount Volume access rights
+To be complete the official image aligned, even the user used to run the ghost service changed from **ghost** to **node**.
+This means if you had a previous installation of this docker, you should change the ownership of files in your folder or docker volume:
+
+```bash
+chown -R 1000:1000 /opt/data/content
+```
+
+The ID 1000 is the one created into the node image for the user **node**. Normally the owner before this operation should be *1276* which is the one assigned to the **ghost** user.
+
+NB: Change the */opt/data/content* with the path of your data folder.

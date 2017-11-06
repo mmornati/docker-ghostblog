@@ -9,10 +9,7 @@ RUN npm install --loglevel=error -g knex-migrator ghost-cli
 ENV GHOST_VERSION 1.16.2
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
-ENV GHOST_USER ghost
-
-RUN addgroup --system -gid 1276 $GHOST_USER && \
-    adduser --system --ingroup $GHOST_USER --uid 1276 $GHOST_USER
+ENV GHOST_USER node
 
 WORKDIR $GHOST_INSTALL
 RUN ghost install $GHOST_VERSION --local --dir $GHOST_INSTALL && \
@@ -28,13 +25,10 @@ LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
-ENV GHOST_USER ghost
+ENV GHOST_USER node
 
 # Install Ghost
-RUN addgroup -S -g 1276 $GHOST_USER && \
-    adduser -S -h $GHOST_INSTALL -G $GHOST_USER -u 1276 $GHOST_USER
-
-COPY --from=ghost-builder --chown=ghost $GHOST_INSTALL $GHOST_INSTALL
+COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
 
 USER $GHOST_USER
 ENV HOME $GHOST_INSTALL
