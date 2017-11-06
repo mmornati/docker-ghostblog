@@ -12,8 +12,7 @@ ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
 
 WORKDIR $GHOST_INSTALL
-RUN ghost install $GHOST_VERSION --local --dir $GHOST_INSTALL && \
-    echo $GHOST_VERSION > $GHOST_INSTALL/version
+RUN ghost install $GHOST_VERSION --local --dir $GHOST_INSTALL
 
 COPY run-ghost.sh $GHOST_INSTALL
 COPY config.production.json $GHOST_INSTALL

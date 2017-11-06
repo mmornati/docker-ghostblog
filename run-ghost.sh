@@ -10,7 +10,6 @@ while getopts 'dv' flag; do
 done
 
 CONFIG="$GHOST_INSTALL/config.production.json"
-GHOST_VERSION=`cat $GHOST_INSTALL/version`
 
 # Set Config
 if [ -z "$WEB_URL" ]; then
@@ -64,5 +63,5 @@ if [[ $start == 'true' ]]; then
 	# Start Ghost with Ghost CLI
 	# cd /ghost/blog && ghost run production
         # Start Ghost with NODE
-        cd $GHOST_INSTALL && node versions/$GHOST_VERSION/index.js 
+        cd $GHOST_INSTALL && node current/index.js 
 fi
