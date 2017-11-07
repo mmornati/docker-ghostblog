@@ -13,8 +13,8 @@ CONFIG="$GHOST_INSTALL/config.production.json"
 
 # Set Config
 if [ -z "$WEB_URL" ]; then
-	echo "WEB_URL is empty. Getting default: blog.mornati.net"
-	WEB_URL=http://localhost:2368
+	echo "WEB_URL is empty. Getting default: http://$(hostname -i):2368"
+	WEB_URL=http://$(hostname -i):2368
 fi
 
 echo "=> Change config based on ENV parameters:"
