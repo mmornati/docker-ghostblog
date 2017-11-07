@@ -3,8 +3,8 @@
 #
 
 #Build step for Ghost Image
-FROM node:6 as ghost-builder
-RUN npm install --loglevel=error -g knex-migrator ghost-cli
+FROM node:6-alpine as ghost-builder
+RUN npm install --loglevel=error -g ghost-cli
 
 ENV GHOST_VERSION 1.16.2
 ENV GHOST_INSTALL /var/lib/ghost
@@ -12,25 +12,29 @@ ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
 
 WORKDIR $GHOST_INSTALL
-RUN ghost install $GHOST_VERSION --local --dir $GHOST_INSTALL
+RUN ghost install "$GHOST_VERSION" --db sqlite3 --no-prompt --no-stack --no-setup --dir "$GHOST_INSTALL"; \
+	  ghost config --ip 0.0.0.0 --port 2368 --no-prompt --db sqlite3 --url http://localhost:2368 --dbpath "$GHOST_CONTENT/data/ghost.db"; \
+	  ghost config paths.contentPath "$GHOST_CONTENT"; 
 
 COPY run-ghost.sh $GHOST_INSTALL
-COPY config.production.json $GHOST_INSTALL
-COPY config.development.json $GHOST_INSTALL
 
 #Create the Docker Ghost Blog
 FROM node:6-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
+ENV GHOST_VERSION 1.16.2
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
+
+RUN npm install --loglevel=error -g ghost-cli
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
 
 USER $GHOST_USER
 ENV HOME $GHOST_INSTALL
+ENV PATH="${GHOST_INSTALL}/current/node_modules/knex-migrator/bin:${PATH}"
 
 #Keeping Original GhostContent to be copied into the mounted volume (if empty)
 RUN cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck";
