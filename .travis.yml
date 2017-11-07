@@ -24,7 +24,7 @@ before_script:
     - docker run -d --name blogtest -p 2368:2368 -e NODE_ENV=production "$image"
     - until nc -z $(docker inspect --format='{{.NetworkSettings.IPAddress}}' blogtest) 2368; do
           echo "waiting for ghostblog container...";
-          docker logs blogtest
+          docker logs blogtest;
           sleep 2;
       done
     - echo "GhostTest available..."
