@@ -6,7 +6,7 @@
 FROM node:6-alpine as ghost-builder
 RUN npm install --loglevel=error -g ghost-cli
 
-ENV GHOST_VERSION 1.16.2
+ENV GHOST_VERSION 1.17.0
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
@@ -22,7 +22,7 @@ COPY run-ghost.sh $GHOST_INSTALL
 FROM node:6-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
-ENV GHOST_VERSION 1.16.2
+ENV GHOST_VERSION 1.17.0
 ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
