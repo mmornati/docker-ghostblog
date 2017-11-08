@@ -51,7 +51,7 @@ HEALTHCHECK --interval=5m --timeout=3s \
   CMD echo "GET / HTTP/1.1" | nc -v localhost 2368 || exit 1
 
 # Define mountable directories.
-VOLUME [$GHOST_CONTENT]
+VOLUME ["${GHOST_CONTENT}"]
 
 # Define default command.
 CMD ["/bin/sh", "-c", "/bin/sh ${GHOST_INSTALL}/run-ghost.sh"]
