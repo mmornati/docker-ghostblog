@@ -27,8 +27,6 @@ ENV GHOST_INSTALL /var/lib/ghost
 ENV GHOST_CONTENT /var/lib/ghost/content
 ENV GHOST_USER node
 
-RUN npm install --loglevel=error -g ghost-cli
-
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
 
