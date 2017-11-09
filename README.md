@@ -27,24 +27,29 @@ docker pull mmornati/docker-ghostblog
 
     docker run -d -p 80:2368 mmornati/docker-ghostblog
 
-#### Customizing Ghost
+#### Customize Ghost
 
     docker run -d -p 80:2368 -e [ENVIRONMENT_VARIABLES] -v <override-dir>:/var/lib/ghost/content mmornati/docker-ghostblog
 
 Environment variables are used to personalise your Ghost Blog configuration. Could be:
 
 * WEB_URL: the url used to expose your blog (default: blog.mornati.net)
-* DB_CLIENT: database used to store blog data (default: sqlite3)
-* DB_SQLITE_PATH: sqlite data file path (default: $GHOST_CONTENT/data/ghost.db)
-* SERVER_HOST: hostname/ip used to expose the blog (default: 0.0.0.0)
-* SERVER_PORT: port used by the server (default: 2368).
-
-> NB: Knowing the ghostblog is run using a 'non root user' (ghost), you cannot start the nodejs process on a port less than 1024.
 
 A complete running command line could be:
 
 ```bash
-docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -e SERVER_HOST=12.4.23.5 -e SERVER_PORT=4000 -v /opt/data:/var/lib/ghost/content dockerfile/ghost
+docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -v /opt/data:/var/lib/ghost/content mmornati/docker-ghostblog
+```
+
+#### Custimize providing a custom configuration
+
+If you want to customize your Ghost using, for example, a mail server, adding plugins and configure them, ... you can provide a complete configuration file which is be used instead of the internal one.
+To do this a new volume is available: **/var/lib/ghost/config.override.json**
+
+This means you can override the configuration with a command like the following one:
+
+```bash
+docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -v /opt/data:/var/lib/ghost/content -v /opt/myconfiguration.json:/var/lib/ghost/config.override.json mmornati/docker-ghostblog
 ```
 
 ### Upgrade from previous version (< 1.16.2)

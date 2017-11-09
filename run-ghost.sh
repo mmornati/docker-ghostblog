@@ -33,6 +33,11 @@ if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
         cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
 fi
 
+if [ -f $GHOST_INSTALL/config.override.json ]; then
+        echo "Ghost override provided. Override the internal configuration"
+        cp $GHOST_INSTALL/config.override.json $GHOST_INSTALL/config.production.json
+fi
+
 if [ ! -s "$(awk '/"filename": "(.*)"/ {print $2}' $CONFIG | sed -e s/\"//g)" ]; then
         echo "Empty database. Initializing..."
         knex-migrator-migrate --init --mgpath "$GHOST_INSTALL/current"
