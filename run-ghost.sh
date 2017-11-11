@@ -11,6 +11,11 @@ done
 
 CONFIG="$GHOST_INSTALL/config.production.json"
 
+if [ -f $GHOST_INSTALL/config.override.json ]; then
+        echo "Ghost override provided. Override the internal configuration"
+        cp $GHOST_INSTALL/config.override.json $GHOST_INSTALL/config.production.json
+fi
+
 # Set Config
 if [ -z "$WEB_URL" ]; then
 	echo "WEB_URL is empty. Getting default: http://$(hostname -i):2368"
@@ -31,11 +36,6 @@ fi
 if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
         echo "Missing content folder. Copying the default one..."
         cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
-fi
-
-if [ -f $GHOST_INSTALL/config.override.json ]; then
-        echo "Ghost override provided. Override the internal configuration"
-        cp $GHOST_INSTALL/config.override.json $GHOST_INSTALL/config.production.json
 fi
 
 if [ ! -s "$(awk '/"filename": "(.*)"/ {print $2}' $CONFIG | sed -e s/\"//g)" ]; then
