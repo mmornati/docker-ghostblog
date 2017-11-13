@@ -38,7 +38,7 @@ after_script:
     - docker rm blogtest
 
 after_success:
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then 
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" -o -n "$TRAVIS_TAG" ]; then 
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push "$image";
     fi
