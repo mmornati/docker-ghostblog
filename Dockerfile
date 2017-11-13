@@ -31,7 +31,7 @@ RUN \
 
 COPY run-ghost.sh $GHOST_INSTALL
 
-# Here we could add themes within the image
+# Here we could add custom themes within the Docker image
 
 # Keeping Original GhostContent to be copied into the mounted volume (if empty)
 RUN cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck" ;
