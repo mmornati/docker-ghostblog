@@ -1,28 +1,31 @@
 #!/bin/sh
+set -eo pipefail
 
-CONFIG="$GHOST_INSTALL/config.production.json"
+if [[ "$*" == "node current/index.js" ]]; then 
+        CONFIG="$GHOST_INSTALL/config.production.json"
 
-if [ -f $GHOST_INSTALL/config.override.json ]; then
-        echo "Ghost override provided. Override the internal configuration"
-        cp $GHOST_INSTALL/config.override.json $GHOST_INSTALL/config.production.json
-fi
+        if [ -f $GHOST_INSTALL/config.override.json ]; then
+                echo "Ghost override provided. Override the internal configuration"
+                cp $GHOST_INSTALL/config.override.json $GHOST_INSTALL/config.production.json
+        fi
 
-# Set Config
-if [ -z "$WEB_URL" ]; then
-	echo "WEB_URL is empty. Getting default: http://$(hostname -i):2368"
-	WEB_URL=http://$(hostname -i):2368
-fi
+        # Set Config
+        if [ -z "$WEB_URL" ]; then
+                echo "WEB_URL is empty. Getting default: http://$(hostname -i):2368"
+                WEB_URL=http://$(hostname -i):2368
+        fi
 
-echo "=> Change config based on ENV parameters:"
-echo "========================================================================"
-echo "      WEB_URL:        $WEB_URL"
-echo "========================================================================"
+        echo "=> Change config based on ENV parameters:"
+        echo "========================================================================"
+        echo "      WEB_URL:        $WEB_URL"
+        echo "========================================================================"
 
-sed -i "s|http://localhost:2368/|$WEB_URL|g" config.production.json
+        sed -i "s|http://localhost:2368/|$WEB_URL|g" config.production.json
 
-if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
-        echo "Missing content folder. Copying the default one..."
-        cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
+        if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
+                echo "Missing content folder. Copying the default one..."
+                cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
+        fi
 fi
 
 if [[ "$*" == "init" ]]; then 
@@ -43,4 +46,4 @@ if [[ "$*" == "migrate" ]]; then
         exit 0
 fi
 
-exec $@
+exec "$@"
