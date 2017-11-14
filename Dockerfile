@@ -1,7 +1,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-FROM node:6-alpine as ghost-builder
+FROM node:8.9.1-alpine as ghost-builder
 
 RUN \
     apk update && apk upgrade                           && \
@@ -42,7 +42,7 @@ RUN cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck" ;
 # Final image
 # No tzdata as it's not working on alpine3.4 (from node6)
 
-FROM node:6-alpine
+FROM node:8.9.1-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 RUN apk update && apk upgrade                           && \
