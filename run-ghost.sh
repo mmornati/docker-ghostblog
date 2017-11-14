@@ -26,24 +26,14 @@ if [[ "$*" == "node current/index.js" ]]; then
                 echo "Missing content folder. Copying the default one..."
                 cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
         fi
-fi
 
-if [[ "$*" == "init" ]]; then 
-        echo "Empty database. Initializing..."
-        knex-migrator init --mgpath "$GHOST_INSTALL/current"
-        exit 0
-fi
-
-if [[ "$*" == "init start" ]]; then 
-        echo "Empty database. Initializing..."
-        knex-migrator init --mgpath "$GHOST_INSTALL/current"
-        node current/index.js
-fi
-
-if [[ "$*" == "migrate" ]]; then 
-        echo "Database already exists. Executing migration (if needed)"
-        knex-migrator migrate --mgpath "$GHOST_INSTALL/current"
-        exit 0
+        if [ ! -s "$(awk '/"filename": "(.*)"/ {print $2}' $CONFIG | sed -e s/\"//g)" ]; then
+                echo "Empty database. Initializing..."
+                knex-migrator init --mgpath "$GHOST_INSTALL/current"
+        else
+                echo "Database already exists. Executing migration (if needed)"
+                knex-migrator migrate --mgpath "$GHOST_INSTALL/current"
+        fi
 fi
 
 exec "$@"

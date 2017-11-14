@@ -46,7 +46,6 @@ FROM node:6-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 RUN apk update && apk upgrade                           && \
-    apk add --no-cache tini                             && \
     rm -rf /var/cache/apk/*                             ;
 
 ENV GHOST_VERSION="1.17.1"                              \
