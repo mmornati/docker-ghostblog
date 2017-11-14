@@ -1,7 +1,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-FROM node:6-alpine as ghost-builder
+FROM node:8.9.1-alpine as ghost-builder
 
 RUN \
     apk update && apk upgrade                           && \
@@ -30,6 +30,7 @@ RUN \
     ghost config paths.contentPath "$GHOST_CONTENT"     ;
 
 COPY run-ghost.sh $GHOST_INSTALL
+RUN chmod +x "$GHOST_INSTALL/run-ghost.sh"
 
 # Here we could add custom themes within the Docker image
 
@@ -41,11 +42,10 @@ RUN cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck" ;
 # Final image
 # No tzdata as it's not working on alpine3.4 (from node6)
 
-FROM node:6-alpine
+FROM node:8.9.1-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 RUN apk update && apk upgrade                           && \
-    apk add --no-cache tini                             && \
     rm -rf /var/cache/apk/*                             ;
 
 ENV GHOST_VERSION="1.17.1"                              \
@@ -75,5 +75,8 @@ HEALTHCHECK CMD wget -q -s http://localhost:2368 || exit 1
 # Define mountable directories
 VOLUME [ "${GHOST_CONTENT}", "${GHOST_INSTALL}/config.override.json" ]
 
+# Define Entry Point to manage the Init and the upgrade
+ENTRYPOINT [ "./run-ghost.sh" ]
+
 # Define default command
-CMD [ "/sbin/tini", "--", "/bin/sh", "-c", "/bin/sh ${GHOST_INSTALL}/run-ghost.sh" ]
+CMD [ "node", "current/index.js" ]
