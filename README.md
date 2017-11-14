@@ -52,6 +52,20 @@ This means you can override the configuration with a command like the following 
 docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -v /opt/data:/var/lib/ghost/content -v /opt/myconfiguration.json:/var/lib/ghost/config.override.json mmornati/docker-ghostblog
 ```
 
+#### Execute Database Init
+The first time you start your ghost you may need to initialize the database to create empty tables. To do this just execute a command with the **init** parameter at the end.
+
+```bash
+docker run -v /opt/data:/var/lib/ghost/content -v /opt/myconfiguration.json:/var/lib/ghost/config.override.json mmornati/docker-ghostblog init
+```
+
+#### Execute Database Migration
+Like the init step, you can add the **migrate** parameter to the run command to execute the database migration.
+
+```bash
+docker run -v /opt/data:/var/lib/ghost/content -v /opt/myconfiguration.json:/var/lib/ghost/config.override.json mmornati/docker-ghostblog migrate
+```
+
 ### Upgrade from previous version (< 1.16.2)
 
 #### Data mount volume
