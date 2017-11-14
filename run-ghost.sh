@@ -38,17 +38,16 @@ if [ -z "$(ls -A "$GHOST_CONTENT")" ]; then
         cp -r $GHOST_INSTALL/content.bck/* $GHOST_CONTENT
 fi
 
-if [ ! -s "$(awk '/"filename": "(.*)"/ {print $2}' $CONFIG | sed -e s/\"//g)" ]; then
+if [[ "$*" == "init" ]]; then 
         echo "Empty database. Initializing..."
         knex-migrator-migrate --init --mgpath "$GHOST_INSTALL/current"
-else
-        echo "Database already exists. Executing migration (if needed)"
-        knex-migrator migrate --mgpath "$GHOST_INSTALL/current"
+        exit 0
 fi
 
-if [[ $start == 'true' ]]; then
-	# Start Ghost with Ghost CLI
-	# cd $GHOST_INSTALL && ghost run production
-        # Start Ghost with NODE
-        cd $GHOST_INSTALL && node current/index.js 
+if [[ "$*" == "migrate" ]]; then 
+        echo "Database already exists. Executing migration (if needed)"
+        knex-migrator migrate --mgpath "$GHOST_INSTALL/current"
+        exit 0
 fi
+
+exec $@

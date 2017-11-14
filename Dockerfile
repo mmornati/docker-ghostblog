@@ -30,6 +30,7 @@ RUN \
     ghost config paths.contentPath "$GHOST_CONTENT"     ;
 
 COPY run-ghost.sh $GHOST_INSTALL
+RUN chmod +x "$GHOST_INSTALL/run-ghost.sh"
 
 # Here we could add custom themes within the Docker image
 
@@ -75,5 +76,8 @@ HEALTHCHECK CMD wget -q -s http://localhost:2368 || exit 1
 # Define mountable directories
 VOLUME [ "${GHOST_CONTENT}", "${GHOST_INSTALL}/config.override.json" ]
 
+# Define Entry Point to manage the Init and the upgrade
+ENTRYPOINT [ "./run-ghost.sh" ]
+
 # Define default command
-CMD [ "/sbin/tini", "--", "/bin/sh", "-c", "/bin/sh ${GHOST_INSTALL}/run-ghost.sh" ]
+CMD [ "node", "current/index.js" ]
