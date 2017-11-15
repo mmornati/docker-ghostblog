@@ -49,14 +49,13 @@ ENV GHOST_VERSION="1.17.2"                                  \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"                                       \
     HOME="$GHOST_INSTALL"                                   \
+    TZ="Etc/UTC"                                            \
     NODE_ENV="production"
 
 RUN set -ex                                                 && \
     apk update && apk upgrade                               && \
     apk add --no-cache tzdata                               && \
     rm -rf /var/cache/apk/*                                 ;
-
-ENV TZ Etc/UTC
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
