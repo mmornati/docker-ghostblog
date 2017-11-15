@@ -22,14 +22,14 @@ RUN set -ex                                                 && \
     echo "---             S P A C E R             ---"      && \
     npm install --loglevel=error -g ghost-cli               && \
     echo "---             S P A C E R             ---"      && \
-    ghost install "$GHOST_VERSION" \
-        --db sqlite3 --no-prompt \
-        --no-stack --no-setup \
+    ghost install "$GHOST_VERSION"  \
+        --db sqlite3 --no-prompt    \
+        --no-stack --no-setup       \
         --dir "$GHOST_INSTALL"                              && \
     echo "---             S P A C E R             ---"      && \
-    ghost config --ip 0.0.0.0 \
-        --port 2368 --no-prompt --db sqlite3 \
-        --url http://localhost:2368 \
+    ghost config --ip 0.0.0.0                   \
+        --port 2368 --no-prompt --db sqlite3    \
+        --url http://localhost:2368             \
         --dbpath "$GHOST_CONTENT/data/ghost.db"             && \
     echo "---             S P A C E R             ---"      && \
     ghost config paths.contentPath "$GHOST_CONTENT"         ;
