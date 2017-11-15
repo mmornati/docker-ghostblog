@@ -51,6 +51,14 @@ This means you can override the configuration with a command like the following 
 docker run -d -p 2368:2368 -e WEB_URL=http://test.blog -v /opt/data:/var/lib/ghost/content -v /opt/myconfiguration.json:/var/lib/ghost/config.override.json mmornati/docker-ghostblog
 ```
 
+#### Configure TimeZone
+If you want to configure TimeZone for the logging you can use the TZ environment variable with the timezone you need. For example:
+
+```bash
+docker run -p 2368:2368 -e TZ=America/Los_Angeles -e WEB_URL=http://localhost:2368 mmornati/docker-ghostblog date
+Wed Nov 15 12:57:23 PST 2017
+```
+
 ### Upgrade from previous version (< 1.16.2)
 
 #### Data mount volume

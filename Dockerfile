@@ -14,11 +14,6 @@ WORKDIR $GHOST_INSTALL
 # We use SQLite as our DB
 RUN set -ex                                                 && \
     apk update && apk upgrade                               && \
-    apk add --no-cache tzdata                               && \
-    cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
-    echo "America/New_York" > /etc/timezone                 && \
-    apk del tzdata                                          && \
-    rm -rf /var/cache/apk/*                                 && \
     echo "---             S P A C E R             ---"      && \
     npm install --loglevel=error -g ghost-cli               && \
     echo "---             S P A C E R             ---"      && \
@@ -59,10 +54,9 @@ ENV GHOST_VERSION="1.17.2"                                  \
 RUN set -ex                                                 && \
     apk update && apk upgrade                               && \
     apk add --no-cache tzdata                               && \
-    cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
-    echo "America/New_York" > /etc/timezone                 && \
-    apk del tzdata                                          && \
     rm -rf /var/cache/apk/*                                 ;
+
+ENV TZ Europe/Paris
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
@@ -81,7 +75,7 @@ EXPOSE 2368
 HEALTHCHECK CMD wget -q -s http://localhost:2368 || exit 1
 
 # Define mountable directories
-VOLUME [ "${GHOST_CONTENT}", "${GHOST_INSTALL}/config.override.json" ]
+VOLUME [ "${GHOST_CONTENT}", "${GHOST_INSTALL}/config.override.json", "/etc/timezone" ]
 
 # Define Entry Point to manage the Init and the upgrade
 ENTRYPOINT [ "./run-ghost.sh" ]
