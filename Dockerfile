@@ -62,7 +62,7 @@ RUN set -ex                                                 && \
     cp /usr/share/zoneinfo/America/New_York /etc/localtime  && \
     echo "America/New_York" > /etc/timezone                 && \
     apk del tzdata                                          && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/*                                 ;
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
