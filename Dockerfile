@@ -56,7 +56,7 @@ RUN set -ex                                                 && \
     apk add --no-cache tzdata                               && \
     rm -rf /var/cache/apk/*                                 ;
 
-ENV TZ Europe/Paris
+ENV TZ Etc/UTC
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
