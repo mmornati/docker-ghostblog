@@ -1,6 +1,14 @@
 [![Build Status](https://travis-ci.org/mmornati/docker-ghostblog.svg)](https://travis-ci.org/mmornati/docker-ghostblog)[![](https://images.microbadger.com/badges/image/mmornati/docker-ghostblog.svg)](https://microbadger.com/images/mmornati/docker-ghostblog "Get your own image badge on microbadger.com")[![](https://images.microbadger.com/badges/version/mmornati/docker-ghostblog.svg)](https://microbadger.com/images/mmornati/docker-ghostblog "Get your own version badge on microbadger.com")
 
-## Ghost Dockerfile
+## Introduction
+
+This image is a **drop replacement** of the official Ghost image. 
+
+At time of writing the image is **well tested** by [Marco Mornati](https://twitter.com/marcomornati) and [Pascal Andy](https://twitter.com/askpascalandy). Just compare the [version from this project](https://github.com/mmornati/docker-ghostblog/blob/master/Dockerfile#L6) and the [version pushed](https://github.com/TryGhost/Ghost/releases) by the Ghost foundation.
+
+The main motivation is to leverage the multistage builds available since docker 17.09 CE and **cut the fat**. The image size (uncompressed) is now **184MB** versus **584MB**. This is more than 3 times lighter!
+
+It’s good to know that the official ghost image is not using multistage builds because Docker Enterprise is not supporting this function yet.
 
 ### Base Docker Image
 
