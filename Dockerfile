@@ -12,7 +12,7 @@ ENV GHOST_VERSION="1.17.3"                                  \
 WORKDIR $GHOST_INSTALL
 
 # We use SQLite as our DB
-RUN set -ex                                                 && \
+RUN set -eux                                                && \
     apk update && apk upgrade                               && \
     echo "---             S P A C E R             ---"      && \
     npm install --loglevel=error -g ghost-cli               && \
@@ -32,7 +32,7 @@ RUN set -ex                                                 && \
 # Copy entrypoint script
 COPY run-ghost.sh $GHOST_INSTALL
 
-RUN set -ex                                                 && \
+RUN set -eux                                                && \
     chmod +x "$GHOST_INSTALL/run-ghost.sh"                  && \
     echo "---             S P A C E R             ---"      && \
     cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck"     ;
@@ -52,7 +52,7 @@ ENV GHOST_VERSION="1.17.3"                                  \
     TZ="Etc/UTC"                                            \
     NODE_ENV="production"
 
-RUN set -ex                                                 && \
+RUN set -eux                                                && \
     apk update && apk upgrade                               && \
     apk add --no-cache tzdata                               && \
     rm -rf /var/cache/apk/*                                 ;
