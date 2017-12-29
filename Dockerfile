@@ -1,6 +1,6 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
-# Update Ghost version on lines: 7 and  48
+# Update Ghost version on lines: 7 and 48
 
 FROM node:8.9.1-alpine as ghost-builder
 
