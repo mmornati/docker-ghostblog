@@ -2,7 +2,7 @@
 # Builder layer
 # Update Ghost version on lines: 7 and 48
 
-FROM node:8.9.1-alpine as ghost-builder
+FROM node:8.9.3-alpine as ghost-builder
 
 ENV GHOST_VERSION="1.19.0"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
@@ -42,7 +42,7 @@ RUN set -eux                                                && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.9.1-alpine
+FROM node:8.9.3-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="1.19.0"                                  \
