@@ -1,10 +1,10 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
-# Update Ghost version on lines: 7 and 48
+# Update Ghost + Node version at lines: 5-7 and 45-48
 
-FROM node:8.9.3-alpine as ghost-builder
+FROM node:8.9.4-alpine as ghost-builder
 
-ENV GHOST_VERSION="1.19.2"                                  \
+ENV GHOST_VERSION="1.20.0"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"
@@ -42,10 +42,10 @@ RUN set -eux                                                && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.9.3-alpine
+FROM node:8.9.4-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
-ENV GHOST_VERSION="1.19.2"                                  \
+ENV GHOST_VERSION="1.20.0"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"                                       \
