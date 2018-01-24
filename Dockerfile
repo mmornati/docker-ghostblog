@@ -4,7 +4,7 @@
 
 FROM node:8.9.4-alpine as ghost-builder
 
-ENV GHOST_VERSION="1.20.2"                                  \
+ENV GHOST_VERSION="1.20.3"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"
@@ -45,7 +45,7 @@ RUN set -eux                                                && \
 FROM node:8.9.4-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
-ENV GHOST_VERSION="1.20.0"                                  \
+ENV GHOST_VERSION="1.20.3"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"                                       \
