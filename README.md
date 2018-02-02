@@ -8,11 +8,13 @@ The main motivation is to leverage the multistage builds available since docker 
 
 It’s good to know that the official ghost image is not using multistage builds because Docker Enterprise is not supporting this function yet.
 
-The image is **well tested** by [Marco Mornati](https://twitter.com/marcomornati) and [Pascal Andy](https://twitter.com/askpascalandy). You can compare the Ghost [version of this project](https://github.com/mmornati/docker-ghostblog/blob/master/Dockerfile#L6) and the [version pushed](https://github.com/TryGhost/Ghost/releases) by the Ghost foundation.
+The image is **well tested** by [Marco Mornati](https://twitter.com/marcomornati) and [Pascal Andy](https://twitter.com/askpascalandy). 
+
+You can compare the Ghost **version** [of this project](https://github.com/mmornati/docker-ghostblog/blob/master/Dockerfile#L6) and the [version pushed](https://github.com/TryGhost/Ghost/releases) by the Ghost foundation.
 
 ### Base Docker Image
 
-* [node:8.9.1-alpine](https://registry.hub.docker.com/_/node/)
+* [node:8.9.4-alpine](https://registry.hub.docker.com/_/node/)
 
 ### Installation
 
