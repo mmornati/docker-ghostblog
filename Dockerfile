@@ -43,7 +43,7 @@ RUN set -eux                                                && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.9.4-alpine
+FROM node:6-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="1.20.3"                                  \
