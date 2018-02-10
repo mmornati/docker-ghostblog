@@ -36,6 +36,7 @@ after_script:
     - docker logs blogtest
     - docker stop blogtest
     - docker rm blogtest
+    - exit 0 
 
 after_success:
   - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" -o -n "$TRAVIS_TAG" ]; then 
