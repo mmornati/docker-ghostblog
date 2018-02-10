@@ -2,7 +2,7 @@
 # Builder layer
 # Update Ghost + Node version at lines: 5-7 and 45-48
 
-FROM node:6-alpine as ghost-builder
+FROM node:8.9-alpine as ghost-builder
 
 ENV GHOST_VERSION="1.21.1"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
@@ -14,7 +14,7 @@ WORKDIR $GHOST_INSTALL
 
 # We use SQLite as our DB. Force install "sqlite3" manually since it's an optional dependency of "ghost"
 RUN set -eux                                                && \
-    apk update && apk upgrade && apk add su-exec            && \
+    apk update && apk add su-exec                           && \
     echo "---             S P A C E R             ---"      && \
     npm install --loglevel=error -g ghost-cli               && \
     echo "---             S P A C E R             ---"      && \
@@ -43,7 +43,7 @@ RUN set -eux                                                && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:6-alpine
+FROM node:8.9-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="1.20.3"                                  \
@@ -55,7 +55,7 @@ ENV GHOST_VERSION="1.20.3"                                  \
     NODE_ENV="production"
 
 RUN set -eux                                                && \
-    apk update && apk upgrade                               && \
+    apk update                                              && \
     apk add --no-cache tzdata                               && \
     rm -rf /var/cache/apk/*                                 ;
 
