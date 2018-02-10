@@ -18,6 +18,7 @@ RUN set -eux                                                && \
     echo "---             S P A C E R             ---"      && \
     npm install --loglevel=error -g ghost-cli               && \
     echo "---             S P A C E R             ---"      && \
+    chown node:node "$GHOST_INSTALL"                        && \
     su-exec node ghost install "$GHOST_VERSION"  \
         --db sqlite3 --no-prompt    \
         --no-stack --no-setup       \
