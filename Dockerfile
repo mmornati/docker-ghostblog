@@ -1,8 +1,13 @@
+# https://docs.ghost.org/supported-node-versions/
+# https://github.com/nodejs/LTS
+#
+# Update Ghost version on lines: 12 and 54
+# Update Node version on lines: 10 and 51
+
 ### ### ### ### ### ### ### ### ###
 # Builder layer
-# Update Ghost + Node version at lines: 5-7 and 45-48
 
-FROM node:8.9-alpine as ghost-builder
+FROM node:6-alpine as ghost-builder
 
 ENV GHOST_VERSION="1.21.1"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
@@ -29,7 +34,7 @@ RUN set -eux                                                && \
         --url http://localhost:2368             \
         --dbpath "$GHOST_CONTENT/data/ghost.db"             && \
     echo "---             S P A C E R             ---"      && \
-    su-exec node ghost config paths.contentPath "$GHOST_CONTENT"         ;
+    su-exec node ghost config paths.contentPath "$GHOST_CONTENT";
 
 # Copy entrypoint script
 COPY run-ghost.sh $GHOST_INSTALL
@@ -43,10 +48,10 @@ RUN set -eux                                                && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.9-alpine
+FROM node:6-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
-ENV GHOST_VERSION="1.20.3"                                  \
+ENV GHOST_VERSION="1.21.1"                                  \
     GHOST_INSTALL="/var/lib/ghost"                          \
     GHOST_CONTENT="/var/lib/ghost/content"                  \
     GHOST_USER="node"                                       \
