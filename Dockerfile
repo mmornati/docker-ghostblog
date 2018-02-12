@@ -1,8 +1,11 @@
+# https://docs.ghost.org/supported-node-versions/
+# https://github.com/nodejs/LTS
+#
+# Update Ghost version on lines: 12 and 54
+# Update Node version on lines: 10 and 51
+
 ### ### ### ### ### ### ### ### ###
 # Builder layer
-#
-# Update Ghost version on lines: 9 and 51
-# Update Node version on lines: 7 and 48
 
 FROM node:6-alpine as ghost-builder
 
