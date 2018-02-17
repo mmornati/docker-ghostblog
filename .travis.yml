@@ -20,7 +20,7 @@ before_script:
       image="$image:$TRAVIS_TAG";
       fi
 script:
-    - docker build -t "$image" .
+    - travis_wait 30 docker build -t "$image" .
     - docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "$image"
     - until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
           echo "waiting for ghostblog container...";
