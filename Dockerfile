@@ -19,7 +19,7 @@ WORKDIR $GHOST_INSTALL
 
 # We use SQLite as our DB. Force install "sqlite3" manually since it's an optional dependency of "ghost"
 RUN set -eux                                                    && \
-    apk update && apk add su-exec                               && \
+    apk update && apk add su-exec python                        && \
     echo "---             S P A C E R             ---"          && \
     npm install --loglevel=error -g ghost-cli                   && \
     echo "---             S P A C E R             ---"          && \
