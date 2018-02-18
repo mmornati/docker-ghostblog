@@ -21,7 +21,7 @@ WORKDIR $GHOST_INSTALL
 RUN set -eux                                                    && \
     apk update && apk add su-exec python make nodejs            && \
     echo "---             S P A C E R             ---"          && \
-    npm install --loglevel=error -g ghost-cli                   && \
+    su-exec node npm install --loglevel=error -g ghost-cli      && \
     echo "---             S P A C E R             ---"          && \
     chown node:node "$GHOST_INSTALL"                            && \
     su-exec node ghost install "$GHOST_VERSION" \
