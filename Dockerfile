@@ -7,7 +7,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-FROM node:8.9.4-alpine as ghost-builder
+FROM alpine:latest as ghost-builder
 
 ENV GHOST_VERSION="1.21.1"                                      \
     GHOST_INSTALL="/var/lib/ghost"                              \
@@ -19,7 +19,7 @@ WORKDIR $GHOST_INSTALL
 
 # We use SQLite as our DB. Force install "sqlite3" manually since it's an optional dependency of "ghost"
 RUN set -eux                                                    && \
-    apk update && apk add su-exec python make                   && \
+    apk update && apk add su-exec python make nodejs            && \
     echo "---             S P A C E R             ---"          && \
     npm install --loglevel=error -g ghost-cli                   && \
     echo "---             S P A C E R             ---"          && \
