@@ -1,8 +1,8 @@
 # https://docs.ghost.org/supported-node-versions/
 # https://github.com/nodejs/LTS
 #
-# Update Ghost version on lines: 12 and 54
-# Update Node version on lines: 10 and 51
+# Update Ghost version on lines: 12 and 61
+# Update Node version on lines: 10 and 58
 
 ### ### ### ### ### ### ### ### ###
 # Builder layer
