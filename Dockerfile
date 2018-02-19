@@ -9,45 +9,47 @@
 
 FROM node:8.9.4-alpine as ghost-builder
 
-ENV GHOST_VERSION="1.21.2"                                      \
-    GHOST_INSTALL="/var/lib/ghost"                              \
-    GHOST_CONTENT="/var/lib/ghost/content"                      \
+ENV GHOST_VERSION="1.21.2"                  \
+    GHOST_INSTALL="/var/lib/ghost"          \
+    GHOST_CONTENT="/var/lib/ghost/content"  \
     GHOST_USER="node"                                           
 
 # Set default directory
 WORKDIR $GHOST_INSTALL
 
+#Install required packages
+RUN set -eux                            && \
+    apk update && apk add python make   && \
+    chown node:node "$GHOST_INSTALL"     
+
+USER $GHOST_USER
+
 # Change base folder for the NPM installs (dtrace_provider is somehow failing because of this)
-RUN mkdir /home/node/.npm-global && chown -R node:node /home/node/.npm-global
+RUN mkdir /home/node/.npm-global
 ENV PATH=/home/node/.npm-global/bin:$PATH
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 
 # We use SQLite as our DB. Force install "sqlite3" manually since it's an optional dependency of "ghost"
-RUN set -eux                                                    && \
-    apk update && apk add su-exec python make                   && \
-    echo "---             S P A C E R             ---"          && \
-    su-exec node npm install --loglevel=error -g ghost-cli      && \
-    echo "---             S P A C E R             ---"          && \
-    chown node:node "$GHOST_INSTALL"                            && \
-    su-exec node ghost install "$GHOST_VERSION" \
-        --db sqlite3 --no-prompt                \
-        --no-stack --no-setup                   \
-        --dir "$GHOST_INSTALL"                                  && \
-    echo "---             S P A C E R             ---"          && \
-    su-exec node ghost config --ip 0.0.0.0      \
-        --port 2368 --no-prompt --db sqlite3    \
-        --url http://localhost:2368             \
-        --dbpath "$GHOST_CONTENT/data/ghost.db"                 && \
-    echo "---             S P A C E R             ---"          && \
-    su-exec node ghost config paths.contentPath "$GHOST_CONTENT";
+RUN npm install --loglevel=error -g ghost-cli   && \
+    echo "--- INSTALLING GHOST ${GHOST_VERSION} INTO ${GHOST_INSTALL} FOLDER ---" && \
+    ghost install "$GHOST_VERSION"                 \
+        --db sqlite3 --no-prompt                   \
+        --no-stack --no-setup                      \
+        --dir "$GHOST_INSTALL"                  && \
+    echo "---  CONFIGURING GHOST  ---"          && \
+    ghost config --ip 0.0.0.0                      \
+        --port 2368 --no-prompt --db sqlite3       \
+        --url http://localhost:2368                \
+        --dbpath "$GHOST_CONTENT/data/ghost.db" && \
+    ghost config paths.contentPath "$GHOST_CONTENT"
 
 # Copy entrypoint script
-COPY run-ghost.sh $GHOST_INSTALL
+COPY --chown=node run-ghost.sh $GHOST_INSTALL
 
-RUN set -eux                                                    && \
-    chmod +x "$GHOST_INSTALL/run-ghost.sh"                      && \
-    echo "---             S P A C E R             ---"          && \
-    cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck"         ;
+RUN set -eux                                    && \
+    chmod +x "$GHOST_INSTALL/run-ghost.sh"      && \
+    echo "--- CREATING CONTENT TEMPLATE  ---"   && \
+    cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck"         
 
 
 ### ### ### ### ### ### ### ### ###
@@ -56,18 +58,18 @@ RUN set -eux                                                    && \
 FROM node:8.9.4-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
-ENV GHOST_VERSION="1.21.2"                                      \
-    GHOST_INSTALL="/var/lib/ghost"                              \
-    GHOST_CONTENT="/var/lib/ghost/content"                      \
-    GHOST_USER="node"                                           \
-    HOME="$GHOST_INSTALL"                                       \
-    TZ="Etc/UTC"                                                \
+ENV GHOST_VERSION="1.21.2"                   \
+    GHOST_INSTALL="/var/lib/ghost"           \
+    GHOST_CONTENT="/var/lib/ghost/content"   \
+    GHOST_USER="node"                        \
+    HOME="$GHOST_INSTALL"                    \
+    TZ="Etc/UTC"                             \
     NODE_ENV="production"
 
-RUN set -eux                                                    && \
-    apk update                                                  && \
-    apk add --no-cache tzdata                                   && \
-    rm -rf /var/cache/apk/*                                     ;
+RUN set -eux                              && \
+    apk update                            && \
+    apk add --no-cache tzdata             && \
+    rm -rf /var/cache/apk/*
 
 # Install Ghost
 COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
