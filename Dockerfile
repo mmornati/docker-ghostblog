@@ -20,7 +20,7 @@ WORKDIR $GHOST_INSTALL
 #Install required packages
 RUN set -eux                            && \
     apk update && apk add python make   && \
-    chown node:node "$GHOST_INSTALL"    && \
+    chown -R node:node "$GHOST_INSTALL" && \
     chmod g+rw "$GHOST_INSTALL";
 
 USER $GHOST_USER
