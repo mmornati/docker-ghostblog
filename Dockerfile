@@ -56,7 +56,7 @@ RUN set -eux                                    && \
 # Final image
 
 FROM node:8.9.4-alpine
-MAINTAINER Marco Mornati <marco@mornati.net>
+LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="1.21.2"                   \
     GHOST_INSTALL="/var/lib/ghost"           \
