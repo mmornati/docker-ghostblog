@@ -72,7 +72,7 @@ RUN set -eux                              && \
     rm -rf /var/cache/apk/*
 
 # Install Ghost
-COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
+COPY --from=ghost-builder --chown=node:node $GHOST_INSTALL $GHOST_INSTALL
 
 USER $GHOST_USER
 
