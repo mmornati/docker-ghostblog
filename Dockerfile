@@ -7,7 +7,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-FROM node:8.9.4-alpine as ghost-builder
+FROM node:8.11.1-alpine as ghost-builder
 
 ENV GHOST_VERSION="1.22.1"                  \
     GHOST_INSTALL="/var/lib/ghost"          \
@@ -55,7 +55,7 @@ RUN set -eux                                    && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.9.4-alpine
+FROM node:8.11.1-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="1.22.1"                   \
@@ -72,7 +72,7 @@ RUN set -eux                              && \
     rm -rf /var/cache/apk/*
 
 # Install Ghost
-COPY --from=ghost-builder --chown=node $GHOST_INSTALL $GHOST_INSTALL
+COPY --from=ghost-builder --chown=node:node $GHOST_INSTALL $GHOST_INSTALL
 
 USER $GHOST_USER
 
