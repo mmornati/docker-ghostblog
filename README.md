@@ -12,7 +12,7 @@ The image is **well tested** by [Marco Mornati](https://twitter.com/marcomornati
 
 ### Base Docker Image
 
-* [node:8.9.4-alpine](https://registry.hub.docker.com/_/node/)
+* [node:8.11.1-alpine](https://registry.hub.docker.com/_/node/)
 
 ### Installation
 
