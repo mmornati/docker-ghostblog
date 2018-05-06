@@ -39,6 +39,6 @@ after_script:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" -o -n "$TRAVIS_TAG" ]; then 
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin;
     docker push "$image";
     fi
