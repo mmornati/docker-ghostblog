@@ -68,7 +68,7 @@ ENV GHOST_VERSION="1.23.0"                   \
 
 RUN set -eux                                    && \
     apk update                                  && \
-    apk add --no-cache tzdata ca-certificates   && \
+    apk add --no-cache ca-certificates   && \
     update-ca-certificates                      && \
     rm -rf /var/cache/apk/*
 
