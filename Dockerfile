@@ -9,7 +9,7 @@
 
 FROM node:8.11.1-alpine as ghost-builder
 
-ENV GHOST_VERSION="1.23.0"                  \
+ENV GHOST_VERSION="1.23.1"                  \
     GHOST_INSTALL="/var/lib/ghost"          \
     GHOST_CONTENT="/var/lib/ghost/content"  \
     GHOST_USER="node"                                           
