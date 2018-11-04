@@ -7,7 +7,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-FROM node:8.12.0-alpine as ghost-builder
+FROM node:10-alpine as ghost-builder
 
 ENV GHOST_VERSION="2.4.0"                   \
     GHOST_INSTALL="/var/lib/ghost"          \
@@ -55,7 +55,7 @@ RUN set -eux                                    && \
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:8.12.0-alpine
+FROM node:10-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 
 ENV GHOST_VERSION="2.4.0"                    \
