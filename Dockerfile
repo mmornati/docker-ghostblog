@@ -7,10 +7,10 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-ARG GHOST_VERSION="2.20.1"
+ARG GHOST_VERSION="2.13"
 
 FROM node:10-alpine as ghost-builder
-ARG GHOST_VERSION="2.20.1"
+ARG GHOST_VERSION
 ENV GHOST_INSTALL="/var/lib/ghost"          \
     GHOST_CONTENT="/var/lib/ghost/content"  \
     GHOST_USER="node"                                           
