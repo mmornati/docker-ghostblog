@@ -7,10 +7,10 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-ARG GHOST_VERSION="2.19.1"
+ARG GHOST_VERSION="2.19.2"
 
 FROM node:10-alpine as ghost-builder
-ARG GHOST_VERSION="2.19.1"
+ARG GHOST_VERSION="2.19.2"
 ENV GHOST_INSTALL="/var/lib/ghost"          \
     GHOST_CONTENT="/var/lib/ghost/content"  \
     GHOST_USER="node"                                           
@@ -58,7 +58,7 @@ RUN set -eux                                    && \
 
 FROM node:10-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
-ARG GHOST_VERSION="2.19.1"
+ARG GHOST_VERSION="2.19.2"
 ENV GHOST_INSTALL="/var/lib/ghost"           \
     GHOST_CONTENT="/var/lib/ghost/content"   \
     GHOST_USER="node"                        \
