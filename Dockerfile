@@ -58,7 +58,7 @@ RUN set -eux                                    && \
 
 FROM node:10-alpine
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
-ARG GHOST_VERSION="2.20.1"
+ARG GHOST_VERSION
 ENV GHOST_INSTALL="/var/lib/ghost"           \
     GHOST_CONTENT="/var/lib/ghost/content"   \
     GHOST_USER="node"                        \
