@@ -2,26 +2,18 @@ name: Docker Image CI
 
 on: [push]
 
-jobs:
-
-  prepare_build:
-    name: Prepare Build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Checkout Official Images
-      run: git clone https://github.com/docker-library/official-images.git official-images
-    
+jobs:   
 
   build:
     name: Build
-    needs: prepare_build
     runs-on: ubuntu-latest
  
     steps:
     - uses: actions/checkout@v1
       env:
         IMAGE_NAME: mmornati/docker-ghostblog
+    - name: Checkout Official Images
+      run: git clone https://github.com/docker-library/official-images.git official-images
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag mmornati/docker-ghostblog
     - name: Start New Docker
