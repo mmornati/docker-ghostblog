@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       env:
-        IMAGE_NAME="mmornati/docker-ghostblog"
+        IMAGE_NAME: mmornati/docker-ghostblog
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag $IMAGE_NAME
     - name: Start New Docker
