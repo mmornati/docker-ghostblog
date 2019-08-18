@@ -24,7 +24,7 @@ jobs:
             sleep 10;
            done
     - name: Test with Official Images
-      run: official-images/test/run.sh "$image"
+      run: official-images/test/run.sh "mmornati/docker-ghostblog"
     - name: Test Started Blog
       run: curl http://localhost:2368 | grep "The professional publishing platform"
       
