@@ -23,7 +23,7 @@ jobs:
       env:
         IMAGE_NAME: mmornati/docker-ghostblog
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag $IMAGE_NAME
+      run: docker build --tag $IMAGE_NAME .
     - name: Start New Docker
       run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "$IMAGE_NAME"
     - name: Wait for container startup
