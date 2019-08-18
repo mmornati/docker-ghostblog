@@ -23,9 +23,9 @@ jobs:
       env:
         IMAGE_NAME: mmornati/docker-ghostblog
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag "$IMAGE_NAME"
+      run: docker build . --file Dockerfile --tag mmornati/docker-ghostblog
     - name: Start New Docker
-      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "$IMAGE_NAME"
+      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production mmornati/docker-ghostblog
     - name: Wait for container startup
       run: until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
             echo "waiting for ghostblog container...";
