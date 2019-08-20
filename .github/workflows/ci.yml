@@ -15,16 +15,16 @@ jobs:
     - name: Checkout Official Images
       run: git clone https://github.com/docker-library/official-images.git official-images
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag "$IMAGE_NAME"
+      run: docker build . --file Dockerfile --tag "${IMAGE_NAME}"
     - name: Start New Docker
-      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "$IMAGE_NAME"
+      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "${IMAGE_NAME}"
     - name: Wait for container startup
       run: until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
             echo "waiting for ghostblog container...";
             sleep 10;
            done
     - name: Test with Official Images
-      run: official-images/test/run.sh "$IMAGE_NAME"
+      run: official-images/test/run.sh "${IMAGE_NAME}"
     - name: Test Started Blog
       run: curl http://localhost:2368 | grep "The professional publishing platform"
       
