@@ -12,6 +12,8 @@ jobs:
     - uses: actions/checkout@v1
       env:
         IMAGE_NAME: mmornati/docker-ghostblog
+    - name: Check Env variables
+      run: echo "Image Name ${IMAGE_NAME}" && env
     - name: Checkout Official Images
       run: git clone https://github.com/docker-library/official-images.git official-images
     - name: Build the Docker image
