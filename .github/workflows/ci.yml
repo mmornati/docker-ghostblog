@@ -10,23 +10,23 @@ jobs:
  
     steps:
     - uses: actions/checkout@v1
+    - name: Set docker env variable
+      run: echo ::set-env name=image_name::mmornati/docker-ghostblog
     - name: Check Env variables
-      run: echo "Image Name ${IMAGE_NAME}" && env
-      env:
-        IMAGE_NAME: mmornati/docker-ghostblog
+      run: echo "Image Name ${image_name}"
     - name: Checkout Official Images
       run: git clone https://github.com/docker-library/official-images.git official-images
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag "${IMAGE_NAME}"
+      run: docker build . --file Dockerfile --tag "${image_name}"
     - name: Start New Docker
-      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "${IMAGE_NAME}"
+      run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "${image_name}"
     - name: Wait for container startup
       run: until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
             echo "waiting for ghostblog container...";
             sleep 10;
            done
     - name: Test with Official Images
-      run: official-images/test/run.sh "${IMAGE_NAME}"
+      run: official-images/test/run.sh "${image_name}"
     - name: Test Started Blog
       run: curl http://localhost:2368 | grep "The professional publishing platform"
       
