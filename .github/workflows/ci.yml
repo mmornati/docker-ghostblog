@@ -21,12 +21,18 @@ jobs:
     - name: Start New Docker
       run: docker run -d --name blogtest -p 2368:2368 -e WEB_URL=http://localhost:2368 -e NODE_ENV=production "${image_name}"
     - name: Wait for container startup
-      run: until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
-            echo "waiting for ghostblog container...";
-            sleep 10;
-           done
+      run: |
+        until $(curl --output /dev/null --silent --head --fail http://localhost:2368); do
+          echo "waiting for ghostblog container...";
+          sleep 10;
+        done;
     - name: Test with Official Images
       run: official-images/test/run.sh "${image_name}"
     - name: Test Started Blog
       run: curl http://localhost:2368 | grep "The professional publishing platform"
+    - name: Push Image if master branch
+      if: github.ref == 'refs/heads/master'
+      run: | 
+        echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin &&
+        docker push "${image_name}"
       
