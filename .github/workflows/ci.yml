@@ -36,11 +36,11 @@ jobs:
     - name: Push Latest image
       if: github.ref == 'refs/heads/master'
       run: | 
-        echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin &&
+        docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
         docker push "${image_name}"
     - name: Push Tagged image, if tag
       if: startsWith('refs/tags/', github.ref)
       run: | 
-        echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin &&
+        docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
         docker push "${image_name}":"${image_version}"
       
