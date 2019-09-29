@@ -40,7 +40,7 @@ jobs:
         docker push "${image_name}"
     - name: Push Tagged image, if tag
       if: startsWith('refs/tags/', github.ref)
-      run: | 
+      run: |
         docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
         docker push "${image_name}":"${image_version}"
       
