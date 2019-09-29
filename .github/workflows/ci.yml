@@ -12,9 +12,6 @@ jobs:
     - uses: actions/checkout@v1
     - name: Set docker env variable
       run: echo ::set-env name=image_name::mmornati/docker-ghostblog
-    - name: Set image version based on tag
-      if: startsWith('refs/tags/', github.ref)
-      run: echo ::set-env name=image_version::"${github.ref}" | sed 's/ref\/tags\///g'
     - name: Check Env variables
       run: echo "Image Name ${image_name}"
     - name: Checkout Official Images
@@ -39,8 +36,10 @@ jobs:
         docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
         docker push "${image_name}"
     - name: Push Tagged image, if tag
-      if: startsWith('refs/tags/', github.ref)
+      if: contains(github.ref, 'tags')
+      env:
+        REF: ${{ github. ref }}
       run: |
         docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
-        docker push "${image_name}":"${image_version}"
+        docker push "${image_name}":${REF##*/}
       
