@@ -36,7 +36,7 @@ jobs:
     - name: Test Started Blog
       run: curl http://localhost:2368 | grep "The professional publishing platform"
     - name: Push Latest image
-      if: github.ref == 'refs/heads/master'
+      if: github.ref == 'refs/heads/master' || contains(github.ref, 'tags')
       run: | 
         docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}" &&
         docker push "${image_name}"
