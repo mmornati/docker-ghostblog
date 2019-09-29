@@ -7,7 +7,7 @@
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-ARG GHOST_VERSION="2.30.0"
+ARG GHOST_VERSION="2.30.1"
 
 FROM node:10-alpine as ghost-builder
 ARG GHOST_VERSION
