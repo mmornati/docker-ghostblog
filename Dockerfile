@@ -1,27 +1,27 @@
 # https://docs.ghost.org/supported-node-versions/
 # https://github.com/nodejs/LTS
 #
-# Update Ghost version on lines: 12 and 61
-# Update Node version on lines: 10 and 58
+# Update Node version on lines: 12 and 61
+# Update Ghost version on lines: 10 and 58
 
 ### ### ### ### ### ### ### ### ###
 # Builder layer
 
-ARG GHOST_VERSION="3.12.1"
+ARG GHOST_VERSION="4.1.0"
 
-FROM node:10-alpine as ghost-builder
+FROM node:12-alpine3.12 as ghost-builder
 ARG GHOST_VERSION
 ENV GHOST_INSTALL="/var/lib/ghost"          \
     GHOST_CONTENT="/var/lib/ghost/content"  \
-    GHOST_USER="node"                                           
+    GHOST_USER="node"
 
 # Set default directory
 WORKDIR $GHOST_INSTALL
 
 #Install required packages
 RUN set -eux                            && \
-    apk update && apk add python make   && \
-    chown node:node "$GHOST_INSTALL"     
+    apk update && apk add py-pip make   && \
+    chown node:node "$GHOST_INSTALL"
 
 USER $GHOST_USER
 
@@ -50,13 +50,13 @@ COPY --chown=node run-ghost.sh $GHOST_INSTALL
 RUN set -eux                                    && \
     chmod +x "$GHOST_INSTALL/run-ghost.sh"      && \
     echo "--- CREATING CONTENT TEMPLATE  ---"   && \
-    cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck"         
+    cp -r "$GHOST_CONTENT" "$GHOST_INSTALL/content.bck"
 
 
 ### ### ### ### ### ### ### ### ###
 # Final image
 
-FROM node:10-alpine
+FROM node:12-alpine3.12
 LABEL maintainer="Marco Mornati <marco@mornati.net>"
 ARG GHOST_VERSION
 ENV GHOST_INSTALL="/var/lib/ghost"           \
